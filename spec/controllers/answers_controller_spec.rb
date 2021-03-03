@@ -25,11 +25,11 @@ RSpec.describe AnswersController, type: :controller do
       it 'saves a new question answer in the database' do
         expect do
           post :create, params: { answer: attributes_for(:answer), question_id: question }
-        end.to change(Answer, :count).by(1)
+        end.to change(question.answers, :count).by(1)
       end
 
       it 'redirects to show view' do
-        post :create, params: { answer: attributes_for(:answer), question_id: question }
+        post :create, params: { question_id: question, answer: attributes_for(:answer) }
         expect(response).to redirect_to assigns(:answer)
       end
     end
@@ -38,7 +38,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'does not save the answer' do
         expect do
           post :create,
-               params: { answer: attributes_for(:answer, :invalid), question_id: question }
+               params: { question_id: question, answer: attributes_for(:answer, :invalid) }
         end.to_not change(Answer, :count)
       end
 
