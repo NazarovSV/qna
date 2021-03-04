@@ -1,2 +1,14 @@
 h1= question.title
 p= question.body
+br
+p= 'Answers:'
+
+ul
+  -question.answers.each do |item|
+    - unless item.new_record?
+      li= item.body
+
+br
+
+- if user_signed_in?
+  = render 'answers/form'
