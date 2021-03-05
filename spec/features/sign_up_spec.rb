@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can sign up', %q{
+feature 'User can sign up', '
   To ask questions,
   as an unregistered user,
   I want to be able to register on the site
-} do
-
+' do
   scenario 'Unautharized user tries to sign up' do
     visit questions_path
 
@@ -28,7 +29,7 @@ feature 'User can sign up', %q{
 
     click_on 'Sign up'
 
-    expect(page).to have_content "prohibited this user from being saved"
+    expect(page).to have_content 'prohibited this user from being saved'
     expect(page).to have_content "Email can't be blank"
     expect(page).to have_content "Password can't be blank"
   end

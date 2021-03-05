@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can create answer for question', %q{
+feature 'User can create answer for question', '
   To solve the problem
   as an authorized user,
   I would like to leave an answer on the question page
-} do
-
+' do
   given(:question) { create(:question) }
 
   describe 'Authenticated user' do
@@ -29,11 +30,10 @@ feature 'User can create answer for question', %q{
 
       expect(page).to have_content "Body can't be blank"
     end
-
   end
 
   scenario 'Unauthenticated user answers the question' do
     visit question_path(question)
-    expect(page).to_not have_content "Post Your Answer"
+    expect(page).to_not have_content 'Post Your Answer'
   end
 end
