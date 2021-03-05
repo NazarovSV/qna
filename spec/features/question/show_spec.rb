@@ -27,8 +27,6 @@ feature 'User can see question with answers', %q{
     expect(page).to have_content question.title
     expect(page).to have_content question.body
 
-    save_and_open_page
-
     answers.each do | answer |
       expect(page).to have_content answer.body
     end
