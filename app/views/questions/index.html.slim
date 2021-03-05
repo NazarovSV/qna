@@ -3,4 +3,6 @@ p= link_to 'Ask question', new_question_path
 b= "Questions: "
 ul
   -@questions.each do |question|
-   li= question.title
+    li= question.title
+    - if current_user == question.user
+      = link_to 'Delete question', question_path(question), method: :delete
