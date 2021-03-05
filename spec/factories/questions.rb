@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   sequence :title do |n|
     "MyString #{n}"
@@ -5,7 +7,7 @@ FactoryBot.define do
 
   factory :question do
     title
-    body { "MyText" }
+    body { 'MyText' }
     user
 
     trait :invalid do

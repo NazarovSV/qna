@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can delete his question', %q{
+feature 'User can delete his question', '
   In order to delete non-actual question
   As an authenticated user
   I want to be able to delete my question
-} do
-
+' do
   given(:question) { create(:question) }
 
   describe 'Authenticated user' do
@@ -28,7 +29,6 @@ feature 'User can delete his question', %q{
 
       expect(page).to_not have_link 'Delete question'
     end
-
   end
 
   scenario 'Unauthenticated cannot delete any question' do

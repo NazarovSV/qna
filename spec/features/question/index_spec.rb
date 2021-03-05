@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can see a list of all questions', %q{
+feature 'User can see a list of all questions', "
   In order to if the question I'm interested in has been asked
   as an authenticated and non-authenticated user,
   I want to see a list of all questions
-} do
-
+" do
   scenario 'Authenticated user sees a list of all questions' do
     user = create(:user)
     questions = create_list(:question, 5)
@@ -14,7 +15,7 @@ feature 'User can see a list of all questions', %q{
 
     visit questions_path
 
-    questions.each do | question |
+    questions.each do |question|
       expect(page).to have_content question.title
     end
   end
@@ -24,7 +25,7 @@ feature 'User can see a list of all questions', %q{
 
     visit questions_path
 
-    questions.each do | question |
+    questions.each do |question|
       expect(page).to have_content question.title
     end
   end

@@ -1,11 +1,12 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-feature 'User can delete his answer', %q{
+feature 'User can delete his answer', '
   In order to delete non-actual answer
   As an authenticated user
   I want to be able to delete my answer
-} do
-
+' do
   given(:user) { create(:user) }
   given(:answer) { create(:answer, user: user) }
 
@@ -29,7 +30,6 @@ feature 'User can delete his answer', %q{
 
       expect(page).to_not have_link 'Delete answer'
     end
-
   end
 
   scenario 'Unauthenticated cannot delete any answer' do
