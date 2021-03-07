@@ -4,5 +4,5 @@ b= "Questions: "
 ul
   -@questions.each do |question|
     li= question.title
-    - if current_user == question.user
+    - if current_user&.author?(entity: question)
       = link_to 'Delete question', question_path(question), method: :delete
