@@ -113,16 +113,37 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { login(user) }
     let!(:question) { create(:question) }
 
-    it 'deletes the question' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+    context 'sign in as question author' do
+      before { login(question.user) }
+
+      it 'deletes the question' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      end
+
+      it 'redirects to index' do
+        delete :destroy, params: { id: question }
+
+        expect(response).to redirect_to questions_path
+        expect(flash[:notice]).to match('Your question has been successfully deleted!')
+      end
     end
 
-    it 'redirects to index' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
+    context 'sign in as not question author' do
+      before { login(create(:user)) }
+
+      it 'deletes the answer' do
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(0)
+      end
+
+      it 're-renders to question index' do
+        delete :destroy, params: { id: question }
+
+        expect(response).to redirect_to questions_path
+        expect(flash[:alert]).to match('You do not have permission to delete the question!')
+      end
+
     end
   end
 end
