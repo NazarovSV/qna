@@ -67,7 +67,9 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to question show' do
         delete :destroy, params: { id: answer }
+
         expect(response).to redirect_to question_path(question)
+        expect(flash[:notice]).to match('Your answer has been successfully deleted!')
       end
 
     end
@@ -81,7 +83,9 @@ RSpec.describe AnswersController, type: :controller do
 
       it 're-renders question show' do
         delete :destroy, params: { id: answer }
+
         expect(response).to redirect_to question_path(question)
+        expect(flash[:alert]).to match('You do not have permission to delete the answer!')
       end
 
     end
