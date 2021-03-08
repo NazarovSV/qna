@@ -14,12 +14,12 @@ RSpec.describe User, type: :model do
 
     it 'current user is the author of the question' do
       user = question.user
-      expect(user.author?(entity: question)).to be(true)
+      expect(user).to be_author(entity: question)
     end
 
     it 'current user is not the author of the question' do
       user = create(:user)
-      expect(user.author?(entity: question)).to be(false)
+      expect(user).to_not be_author(entity: question)
     end
   end
 
