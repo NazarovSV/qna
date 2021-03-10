@@ -10,9 +10,7 @@ class AnswersController < ApplicationController
     @answer = question.answers.new(answer_params)
     @answer.user = current_user
     if @answer.save
-      redirect_to question, notice: 'Your answer successfully created!'
-    else
-      render 'questions/show'
+      flash.now[:notice] = 'Your answer successfully created!'
     end
   end
 
@@ -23,6 +21,11 @@ class AnswersController < ApplicationController
     else
       redirect_to question_path(answer.question), alert: 'You do not have permission to delete the answer!'
     end
+  end
+
+  def update
+    answer.update(answer_params)
+    @question = answer.question
   end
 
   private

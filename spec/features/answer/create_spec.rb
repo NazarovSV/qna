@@ -17,7 +17,7 @@ feature 'User can create answer for question', '
       visit question_path(question)
     end
 
-    scenario 'answers the question' do
+    scenario 'answers the question', js:true do
       fill_in 'Body', with: 'text text text'
       click_on 'Post Your Answer'
 
@@ -25,7 +25,7 @@ feature 'User can create answer for question', '
       expect(page).to have_content 'text text text'
     end
 
-    scenario 'answers the question with errors' do
+    scenario 'answers the question with errors', js:true do
       click_on 'Post Your Answer'
 
       expect(page).to have_content "Body can't be blank"
