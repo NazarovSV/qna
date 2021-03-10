@@ -4,11 +4,8 @@ br
 p= 'Answers:'
 
 ul
-  -question.answers.each do |answer|
-    - unless answer.new_record?
-      li= answer.body
-      - if current_user&.author?(answer)
-        = link_to 'Delete answer', answer_path(answer), method: :delete
+  .answers
+    = render question.answers
 
 br
 
