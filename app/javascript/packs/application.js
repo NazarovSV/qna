@@ -15,4 +15,3 @@ require("channels")
 require('../utilities/answers')
 
 import "bootstrap";
-import "../stylesheets/application";
