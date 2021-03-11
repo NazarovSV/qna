@@ -6,14 +6,17 @@ html
     = csrf_meta_tags
     = csp_meta_tag
 
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+
 
   body
     = render 'shared/nav'
-    br
-    p class="notice"
-      = notice
-    p class="alert"
-      = alert
-    = yield
+    .container
+      .row
+        .col-lg-9
+          = render 'shared/flash'
+          = yield
+
+      footer
+        p &copy; Thinknetica

@@ -1,13 +1,19 @@
-h1= question.title
+.text-center
+  h3= question.title
+
+br
+
 p= question.body
-br
-p= 'Answers:'
-
-ul
-  .answers
-    = render question.answers
 
 br
+br
+
+p
+  b= 'Answers:'
+br
+.answers
+  = render question.answers
+
 
 - if user_signed_in?
   = render 'answers/form'

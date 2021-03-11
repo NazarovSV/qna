@@ -1,14 +1,16 @@
 - unless answer.new_record?
-  li= answer.body
+  span= answer.body
+  br
   - if current_user&.author?(answer)
-    = link_to 'Delete  answer', answer_path(answer), method: :delete
-    '  |
-    = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+    small
+      = link_to 'Delete  answer', answer_path(answer), method: :delete
+      '  |
+      = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
 
     = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-      = f.label :body, 'Your answer'
-      = f.text_area :body
-      = f.submit 'Save'
-
-
-    /, edit_answer_path(answer)
+      small
+        = f.label :body, 'Your answer:', class: 'form-label'
+      = f.text_area :body, class: 'form-control'
+      = f.submit 'Save', class: "btn btn-primary mt-3"
+  hr
+br

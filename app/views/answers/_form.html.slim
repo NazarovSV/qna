@@ -1,7 +1,7 @@
 
 .answer-errors
 
-= form_with model: [question, @answer], local: false do |f|
-  = f.label :body
-  = f.text_field :body
-  = f.submit 'Post Your Answer'
+= form_with model: [question, @answer], local: false, class: 'form-group' do |f|
+  = f.label :body, class: 'form-label'
+  = f.text_area :body, class: 'form-control', rows: 7
+  = f.submit 'Post Your Answer', class: "btn btn-primary mt-3"
