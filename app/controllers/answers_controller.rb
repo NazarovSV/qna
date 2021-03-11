@@ -10,7 +10,9 @@ class AnswersController < ApplicationController
     @answer = question.answers.new(answer_params)
     @answer.user = current_user
     if @answer.save
-      flash.now[:notice] = 'Your answer successfully created!'
+      respond_to do |format|
+        format.js { flash.now[:notice] =  'Your answer successfully created!' }
+      end
     end
   end
 
