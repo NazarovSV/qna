@@ -34,6 +34,7 @@ gem 'devise'
 gem 'rexml'
 gem 'slim-rails'
 gem 'jquery-rails'
+gem 'bootstrap', '~> 5.0.0.beta1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
