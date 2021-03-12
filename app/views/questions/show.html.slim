@@ -11,8 +11,11 @@ br
 p
   b= 'Answers:'
 br
-.answers
-  = render question.answers
+.answer_list
+  .best_answer
+    = render 'answers/best_answer'
+  .answers
+    = render @answers
 
 
 - if user_signed_in?

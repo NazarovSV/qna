@@ -9,6 +9,7 @@ FactoryBot.define do
     title
     body { 'MyText' }
     user
+    best_answer_id { nil }
 
     trait :invalid do
       title { nil }
