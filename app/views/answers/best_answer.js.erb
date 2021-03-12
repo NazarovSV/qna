@@ -1,8 +1,7 @@
-<% if !answer.errors.present? %>
+<% if @question.best_answer.present? %>
   $('.best_answer').html('<%= j render 'best_answer' %>');
-  $('.answers').html('<%= j render @question.answers %>');
 <% end %>
 
-$('#flash').html('<%= j render partial: "shared/flash" %>');
+$('.answers').html('<%= j render @other_answer %>');
 
 $('<%= ".answer-#{answer.id}-errors" %>').html('<%= render 'shared/errors', resource: answer %>');

@@ -126,4 +126,53 @@ RSpec.describe AnswersController, type: :controller do
     end
 
   end
+
+  describe 'PATCH #best_answer' do
+
+      context 'User is author of question' do
+        before { login(user) }
+
+        it 'set best answer' do
+          patch :best_answer, params: { id: answer, answer: { best: true} }, format: :js
+          answer.reload
+          expect(answer.question.best_answer).to be
+        end
+
+        it 'set another best answer' do
+          question = create(:question)
+          answers = create_list(:answer, 2, question: question)
+
+          question.update(best_answer: answers.first)
+
+          patch :best_answer, params: { id: answers.second, answer: { best: true} }, format: :js
+
+          question.reload
+
+          expect(question.best_answer).to eq answers.second
+        end
+
+        it 'renders best_answer view' do
+          patch :best_answer, params: { id: answer, answer: { body: 'new body'}, format: :js }
+          expect(response).to render_template :best_answer
+        end
+      end
+
+      context 'User is not author of question' do
+        before { login(user) }
+
+        it 'tries to set best answer' do
+          patch :best_answer, params: { id: answer, answer: { best: true} }, format: :js
+          answer.reload
+          expect(question.best_answer).not_to be
+        end
+      end
+
+      context 'Unauthorized user' do
+        it 'tries to set best answer' do
+          patch :best_answer, params: { id: answer, answer: { best: true} }, format: :js
+          answer.reload
+          expect(question.best_answer).not_to be
+        end
+      end
+  end
 end

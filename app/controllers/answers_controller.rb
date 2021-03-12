@@ -18,6 +18,7 @@ class AnswersController < ApplicationController
 
   def destroy
     if current_user.author?(answer)
+      answer.question.update(best_answer: nil) if answer == answer.question.best_answer
       answer.destroy!
       flash.now[:notice] =  'Your answer has been successfully deleted!'
     else
@@ -25,14 +26,18 @@ class AnswersController < ApplicationController
     end
     @question = answer.question
 
-    respond_to do |format|
-      format.js
-    end
+    respond_to :js
   end
 
   def update
     answer.update(answer_params) if current_user.author?(answer)
     @question = answer.question
+  end
+
+  def best_answer
+    answer.question.update(best_answer: answer)
+    @question = answer.question
+    @other_answer = answer.question.other_answers
   end
 
   private
