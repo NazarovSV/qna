@@ -10,13 +10,13 @@ feature 'User can delete his answer', '
   given(:user) { create(:user) }
   given(:answer) { create(:answer, user: user) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     scenario 'can delete his answer' do
       sign_in(answer.user)
 
       visit question_path(answer.question)
 
-      click_on 'Delete answer'
+      click_on 'Delete'
 
       expect(current_path).to eq(question_path(answer.question))
       expect(page).to_not have_content answer.body
@@ -28,13 +28,13 @@ feature 'User can delete his answer', '
 
       visit question_path(answer.question)
 
-      expect(page).to_not have_link 'Delete answer'
+      expect(page).to_not have_link 'Delete'
     end
   end
 
-  scenario 'Unauthenticated cannot delete any answer' do
+  scenario 'Unauthenticated cannot delete any answer', js: true do
     visit question_path(answer.question)
 
-    expect(page).to_not have_link 'Delete answer'
+    expect(page).to_not have_link 'Delete'
   end
 end
