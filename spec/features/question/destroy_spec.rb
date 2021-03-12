@@ -15,7 +15,7 @@ feature 'User can delete his question', '
 
       visit questions_path
 
-      click_on 'Delete question'
+      click_on 'Delete'
 
       expect(current_path).to eq(questions_path)
       expect(page).to_not have_content question.title
@@ -27,13 +27,13 @@ feature 'User can delete his question', '
 
       visit questions_path
 
-      expect(page).to_not have_link 'Delete question'
+      expect(page).to_not have_link 'Delete'
     end
   end
 
   scenario 'Unauthenticated cannot delete any question' do
     visit questions_path
 
-    expect(page).to_not have_link 'Delete question'
+    expect(page).to_not have_link 'Delete'
   end
 end
