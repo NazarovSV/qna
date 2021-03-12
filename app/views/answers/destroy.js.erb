@@ -1,0 +1,7 @@
+<% if !answer.errors.present? %>
+  $('.answers').html('<%= j render @question.answers %>');
+<% end %>
+
+$('#flash').html('<%= j render partial: "shared/flash" %>');
+
+$('<%= ".answer-#{answer.id}-errors" %>').html('<%= render 'shared/errors', resource: answer %>');

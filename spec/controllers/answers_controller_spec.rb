@@ -45,13 +45,13 @@ RSpec.describe AnswersController, type: :controller do
       before { login(answer.user) }
 
       it 'deletes the answer' do
-        expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(-1)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to change(Answer, :count).by(-1)
       end
 
-      it 'redirects to question show' do
-        delete :destroy, params: { id: answer }
+      it 'render destroy view' do
+        delete :destroy, params: { id: answer }, format: :js
 
-        expect(response).to redirect_to question_path(question)
+        expect(response).to render_template :destroy
         expect(flash[:notice]).to match('Your answer has been successfully deleted!')
       end
 
@@ -61,13 +61,13 @@ RSpec.describe AnswersController, type: :controller do
       before { login(create(:user)) }
 
       it 'deletes the answer' do
-        expect { delete :destroy, params: { id: answer } }.to change(Answer, :count).by(0)
+        expect { delete :destroy, params: { id: answer }, format: :js  }.to change(Answer, :count).by(0)
       end
 
-      it 're-renders question show' do
-        delete :destroy, params: { id: answer }
+      it 'renders destroy show' do
+        delete :destroy, params: { id: answer }, format: :js
 
-        expect(response).to redirect_to question_path(question)
+        expect(response).to render_template :destroy
         expect(flash[:alert]).to match('You do not have permission to delete the answer!')
       end
 

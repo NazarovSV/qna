@@ -14,7 +14,6 @@ class QuestionsController < ApplicationController
 
   def new; end
 
-  # def edit; end
 
   def create
     @question = Question.new(question_params)
