@@ -1,17 +1,9 @@
 p= link_to 'Ask question', new_question_path
-
 br
 br
-
 b= "Questions: "
-
 br
 br
 
--@questions.each do |question|
-  div= question.title
-  - if current_user&.author?(question)
-    small
-      = link_to 'Delete question', question_path(question), method: :delete
-  br
-  br
+.questions
+  = render @questions
