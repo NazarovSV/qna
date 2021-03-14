@@ -1,6 +1,6 @@
 <% if !answer.errors.present? %>
   $('.best_answer').html('<%= j render 'best_answer' %>');
-  $('.answers').html('<%= j render @question.other_answers %>');
+  $('.answers').html('<%= j render @question.answers.without_best %>');
 <% end %>
 
 $('<%= ".answer-#{answer.id}-errors" %>').html('<%= render 'shared/errors', resource: answer %>');

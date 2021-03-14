@@ -14,7 +14,8 @@
           = f.label :body, 'Your answer:', class: 'form-label'
         = f.text_area :body, class: 'form-control'
         = f.submit 'Save', class: "btn btn-primary mt-3"
-    br
-    = link_to 'Best Answer!', best_answer_answer_path(answer), class: 'link-success', data: { answer_id: answer.id }, remote: true, method: :patch
+    - if current_user&.author?(answer.question)
+      br
+      = link_to 'Best Answer!', best_answer_answer_path(answer), class: 'link-success', data: { answer_id: answer.id }, remote: true, method: :patch
   hr
 br

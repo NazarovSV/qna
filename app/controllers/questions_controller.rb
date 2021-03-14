@@ -10,7 +10,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = question.answers.new
-    @answers = question.other_answers
+    @answers = question.answers.without_best
     @question = question
   end
 

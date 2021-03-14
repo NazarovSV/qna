@@ -7,7 +7,7 @@ feature 'User can choose the best answer', %q{
 } do
 
   given!(:user) { create(:user) }
-  given!(:question) { create(:question) }
+  given!(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, question: question, user: user ) }
 
   scenario 'User cannot choose the best answer if he is not the author of the question', js: true do
@@ -15,7 +15,7 @@ feature 'User can choose the best answer', %q{
 
     visit question_path(question)
 
-    expect(page).to have_link 'Best Answer!'
+    expect(page).to_not have_link 'Best Answer!'
   end
 
   describe 'Question author', js:true do
