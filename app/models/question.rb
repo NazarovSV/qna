@@ -7,7 +7,7 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
-  def other_answers
-    answers.where.not(id: best_answer_id)
-  end
+  # def other_answers
+  #   answers.where.not(id: best_answer_id)
+  # end
 end

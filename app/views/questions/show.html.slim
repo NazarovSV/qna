@@ -8,12 +8,12 @@ p= question.body
 br
 br
 
-p
-  b= 'Answers:'
 br
 .answer_list
   .best_answer
     = render 'answers/best_answer'
+  p
+    b= 'Answers:'
   .answers
     = render @answers
 
