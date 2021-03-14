@@ -2,7 +2,7 @@
 
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[show index]
-  expose :question
+  expose :question, scope: -> { Question.with_attached_files }
 
   def index
     @questions = Question.all
@@ -45,6 +45,6 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, files: [])
   end
 end
