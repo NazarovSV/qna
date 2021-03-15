@@ -13,9 +13,16 @@
       div class="answer-#{answer.id}-errors"
 
       = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-        small
-          = f.label :body, 'Your answer:', class: 'form-label'
-        = f.text_area :body, class: 'form-control'
+        p
+          small
+            = f.label :body, 'Your answer:', class: 'form-label'
+          p
+            = f.text_area :body, class: 'form-control'
+        p
+          small
+            = f.label :files, class: 'form-label'
+          p
+            = f.file_field :files, class: 'form-label', multiple: true
         = f.submit 'Save', class: "btn btn-primary mt-3"
     - if current_user&.author?(answer.question)
       br
