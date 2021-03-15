@@ -1,6 +1,9 @@
 - unless answer.new_record?
   span id="answer_id_#{answer.id}"
     = answer.body
+    - if answer.files.attached?
+      - answer.files.each do |file|
+        p= link_to file.filename.to_s, url_for(file)
     br
     - if current_user&.author?(answer)
       small

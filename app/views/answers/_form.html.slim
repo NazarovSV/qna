@@ -4,4 +4,7 @@
 = form_with model: [question, @answer], local: false, class: 'form-group' do |f|
   = f.label :body, class: 'form-label'
   = f.text_area :body, class: 'form-control', rows: 7
+  = f.label :files, class: 'form-label'
+  p
+    = f.file_field :files, class: 'form-label', multiple: true
   = f.submit 'Post Your Answer', class: "btn btn-primary mt-3"
