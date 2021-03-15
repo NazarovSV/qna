@@ -3,6 +3,9 @@
   br
   br
   = @question.best_answer.body
+  - if @question.best_answer.files.attached?
+    - @question.best_answer.files.each do |file|
+      p= link_to file.filename.to_s, url_for(file)
   br
   br
   - if current_user&.author?(@question.best_answer)
@@ -12,8 +15,15 @@
       = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: @question.best_answer.id }
     div class="answer-#{@question.best_answer.id}-errors"
     = form_with model: @question.best_answer, local: false, class: 'hidden', html: { id: "edit-answer-#{@question.best_answer.id}" } do |f|
-      small
-        = f.label :body, 'Your answer:', class: 'form-label'
-      = f.text_area :body, class: 'form-control'
+      p
+        small
+          = f.label :body, 'Your answer:', class: 'form-label'
+        p
+          = f.text_area :body, class: 'form-control'
+        p
+          small
+            = f.label :files, class: 'form-label'
+          p
+            = f.file_field :files, class: 'form-label', multiple: true
       = f.submit 'Save', class: "btn btn-primary mt-3"
   hr
