@@ -32,6 +32,7 @@ feature 'User can edit his question', %q{
         expect(page).to have_content 'New Title'
         expect(page).to_not have_selector 'textarea'
       end
+
     end
 
     scenario 'edits his question with errors' do
