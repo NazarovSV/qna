@@ -41,11 +41,11 @@ feature 'User can edit his question', %q{
 
       scenario 'add new files for question' do
         within '.questions' do
-          attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb","#{Rails.root}/spec/spec_helper.rb"]
+          attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
 
           click_on 'Save'
         end
-
+        sleep 2
         visit question_path question
 
         expect(page).to have_link 'rails_helper.rb'
