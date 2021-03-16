@@ -21,7 +21,7 @@
           small
             = f.label :files, class: 'form-label'
           p
-            = f.file_field :files, class: 'form-label', multiple: true
+            = f.file_field :files, class: 'form-label', multiple: true, direct_upload: true
         = f.submit 'Save', class: "btn btn-primary mt-3"
     - if current_user&.author?(answer.question)
       br
