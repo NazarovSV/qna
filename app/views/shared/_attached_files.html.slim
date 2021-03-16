@@ -1,0 +1,7 @@
+- if resource&.attached?
+  - resource.each do |file|
+    div id="attached_file_id_#{file.id}"
+      p
+        = link_to file.filename.to_s, url_for(file)
+        '  &nbsp;
+        = link_to 'remove file', attachment_file_path(file.id), method: :delete, remote: true

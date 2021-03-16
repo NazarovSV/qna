@@ -9,4 +9,6 @@ Rails.application.routes.draw do
       patch :best_answer, on: :member
     end
   end
+
+  resources :attachment_files, only: %i[destroy]
 end
