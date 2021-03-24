@@ -3,6 +3,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[show index]
   expose :question, scope: -> { Question.with_attached_files }
+  #expose :links, from: :question
 
   def index
     @questions = Question.all
@@ -10,11 +11,14 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = question.answers.new
+    @answer.links.new
     @answers = question.answers.without_best
     @question = question
   end
 
-  def new; end
+  def new
+    question.links.new
+  end
 
 
   def create
@@ -45,6 +49,7 @@ class QuestionsController < ApplicationController
   private
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body,
+      files: [], links_attributes: [:name, :url])
   end
 end
