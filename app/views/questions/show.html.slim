@@ -4,6 +4,11 @@ br
 p= question.body
 .attached_files
   = render 'shared/attached_files', resource: question.files
+.links
+  p Links:
+  ul
+    - @question.links.each do |link|
+      li= link_to link.name, link.url, target: "_blank"
 br
 br
 br

@@ -2,12 +2,22 @@
 
 = form_with model: question, local: true do |f|
   p
-    = f.label :title
-    = f.text_field :title
+    = f.label :title, class: 'form-label'
+    = f.text_field :title, class: 'form-control'
   p
-    = f.label :body
-    = f.text_field :body
+    = f.label :body, class: 'form-label'
+    = f.text_field :body, class: 'form-control'
   p
-    = f.label :files
-    = f.file_field :files, multiple: true, direct_upload: true
+    = f.label :files, class: 'form-label'
+    = f.file_field :files, class: '"form-control-file"', multiple: true, direct_upload: true
+  p Links:
+  p
+    = f.fields_for :links do | nf |
+      p
+        = nf.label :name, 'Link name', class: 'form-label'
+        = nf.text_field :name, class: 'form-control'
+      p
+        = nf.label :url, class: 'form-label'
+        = nf.text_field :url, class: 'form-control'
+
   = f.submit 'Ask'

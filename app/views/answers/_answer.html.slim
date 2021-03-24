@@ -2,6 +2,11 @@
   span id="answer_id_#{answer.id}"
     = answer.body
     = render 'shared/attached_files', resource: answer.files
+    .links
+      p Links:
+      ul
+        - answer.links.each do |link|
+          li= link_to link.name, link.url, target: "_blank"
 
     br
     - if current_user&.author?(answer)

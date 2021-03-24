@@ -11,7 +11,7 @@ class AnswersController < ApplicationController
     @answer.user = current_user
     if @answer.save
       respond_to do |format|
-        format.js { flash.now[:notice] =  'Your answer successfully created!' }
+        format.js { flash.now[:notice] = 'Your answer successfully created!' }
       end
     end
   end
@@ -20,9 +20,9 @@ class AnswersController < ApplicationController
     if current_user.author?(answer)
       answer.question.update(best_answer: nil) if answer == answer.question.best_answer
       answer.destroy!
-      flash.now[:notice] =  'Your answer has been successfully deleted!'
+      flash.now[:notice] = 'Your answer has been successfully deleted!'
     else
-      flash.now[:alert] =  'You do not have permission to delete the answer!'
+      flash.now[:alert] = 'You do not have permission to delete the answer!'
     end
     @question = answer.question
 
@@ -43,6 +43,6 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit(:body, files: [])
+    params.require(:answer).permit(:body, files: [], links_attributes: [:name, :url])
   end
 end
