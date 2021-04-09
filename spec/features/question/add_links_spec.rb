@@ -6,7 +6,8 @@ feature 'User can add links to question', %q{
   I'd like to able to add links
 } do
   given(:user) { create(:user) }
-  given( :gist_url ) { 'https://thoughtbot.com/blog/automatically-wait-for-ajax-with-capybara' }
+  given(:url) { 'https://thoughtbot.com/blog/automatically-wait-for-ajax-with-capybara' }
+  given(:another_url) { 'https://gist.github.com/Qtechknow/3581263' }
 
   scenario 'User adds link when asks question' do
     sign_in(user)
@@ -15,11 +16,21 @@ feature 'User can add links to question', %q{
     fill_in 'Title', with: 'Test question'
     fill_in 'Body', with: 'text text text'
 
-    fill_in 'Link name', with: 'My gist'
-    fill_in 'Url', with: gist_url
+    within '.add_link'.last do
+      click_on 'Add Link'
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: url
+    end
+
+    within '.add_link'.last do
+      click_on 'Add Link'
+      fill_in 'Link name', with: 'My gist2'
+      fill_in 'Url', with: another_url
+    end
 
     click_on 'Ask'
 
-    expect(page).to have_link 'My gist', href: gist_url
+    expect(page).to have_link 'My gist', href: url
+    expect(page).to have_link 'My gist2', href: another_url
   end
 end

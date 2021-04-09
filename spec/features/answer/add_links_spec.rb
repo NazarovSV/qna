@@ -7,7 +7,7 @@ feature 'User can add links to answer', %q{
 } do
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
-  given( :gist_url ) { 'https://thoughtbot.com/blog/automatically-wait-for-ajax-with-capybara' }
+  given(:gist_url) { 'https://thoughtbot.com/blog/automatically-wait-for-ajax-with-capybara' }
 
   scenario 'User adds link when give an answer', js: true do
     sign_in(user)
