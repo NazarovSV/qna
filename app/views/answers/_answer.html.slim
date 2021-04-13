@@ -6,7 +6,7 @@
       p Links:
       ul
         - answer.links.each do |link|
-          li= link_to link.name, link.url, target: "_blank"
+          li= format_link(link)
 
     br
     - if current_user&.author?(answer)
