@@ -18,10 +18,8 @@ feature 'User can add links to question', %q{
 
     click_on 'add link'
 
-    within '.nested-fields' do
-      fill_in 'Link name', with: 'My gist'
-      fill_in 'Url', with: url
-    end
+    fill_in 'Link name', with: 'My gist'
+    fill_in 'Url', with: url
 
     click_on 'add link'
 
@@ -34,5 +32,22 @@ feature 'User can add links to question', %q{
 
     expect(page).to have_link 'My gist', href: url
     expect(page).to have_link 'My gist2', href: another_url
+  end
+
+  scenario 'User add not valid URL link with when asks question', js: true do
+    sign_in(user)
+    visit new_question_path
+
+    fill_in 'Title', with: 'Test question'
+    fill_in 'Body', with: 'text text text'
+
+    click_on 'add link'
+
+    fill_in 'Link name', with: 'My gist'
+    fill_in 'Url', with: '1111'
+
+    click_on 'Ask'
+
+    expect(page).to have_content "Links url is not a valid URL"
   end
 end
