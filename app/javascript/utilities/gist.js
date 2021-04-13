@@ -1,6 +1,7 @@
-$(document).on('turbolinks:load', function (){
+window.loadGist = function (){
     $('[data-gist-url]').each(function() {
         let url = $(this).data( "gist-url")
+
         $.ajax({
             url: url + '.json',
             dataType: 'jsonp',
@@ -16,4 +17,6 @@ $(document).on('turbolinks:load', function (){
             },
         })
     });
-});
+}
+
+$(document).on('turbolinks:load', loadGist);
