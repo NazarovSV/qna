@@ -7,7 +7,8 @@ feature 'User can add links to question', %q{
 } do
   given(:user) { create(:user) }
   given(:url) { 'https://thoughtbot.com/blog/automatically-wait-for-ajax-with-capybara' }
-  given(:another_url) { 'https://gist.github.com/Qtechknow/3581263' }
+  given(:another_url) { 'https://www.rambler.ru/' }
+  given(:gist) { 'https://gist.github.com/NazarovSV/3f4c2beeeb901a8db1dab9419b2b37aa' }
 
   scenario 'User adds links when asks question', js: true do
     sign_in(user)
@@ -34,7 +35,7 @@ feature 'User can add links to question', %q{
     expect(page).to have_link 'My gist2', href: another_url
   end
 
-  scenario 'User add not valid URL link with when asks question', js: true do
+  scenario 'User adds not valid URL link with when asks question', js: true do
     sign_in(user)
     visit new_question_path
 
@@ -49,5 +50,22 @@ feature 'User can add links to question', %q{
     click_on 'Ask'
 
     expect(page).to have_content "Links url is not a valid URL"
+  end
+
+  scenario 'User adds a link to the gist and sees the gist', js: true do
+    sign_in(user)
+    visit new_question_path
+
+    fill_in 'Title', with: 'Test question'
+    fill_in 'Body', with: 'text text text'
+
+    click_on 'add link'
+
+    fill_in 'Link name', with: 'My gist'
+    fill_in 'Url', with: gist
+
+    click_on 'Ask'
+
+    expect(page).to have_content "Gist for test!"
   end
 end

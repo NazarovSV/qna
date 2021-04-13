@@ -8,7 +8,7 @@ p= question.body
   p Links:
   ul
     - @question.links.each do |link|
-      li= link_to link.name, link.url, target: "_blank"
+      li= format_link(link)
 br
 br
 br
