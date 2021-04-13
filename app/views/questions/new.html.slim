@@ -9,15 +9,13 @@
     = f.text_field :body, class: 'form-control'
   p
     = f.label :files, class: 'form-label'
+    ':
+    br
     = f.file_field :files, class: '"form-control-file"', multiple: true, direct_upload: true
   p Links:
-  p
-    = f.fields_for :links do | nf |
-      p
-        = nf.label :name, 'Link name', class: 'form-label'
-        = nf.text_field :name, class: 'form-control'
-      p
-        = nf.label :url, class: 'form-label'
-        = nf.text_field :url, class: 'form-control'
+  #links
+    .links
+      = link_to_add_association 'add link', f, :links
+    br
 
-  = f.submit 'Ask'
+  = f.submit 'Ask', class: 'btn btn-primary'
