@@ -9,21 +9,23 @@ feature 'User can add links to question', %q{
   given(:url) { 'https://thoughtbot.com/blog/automatically-wait-for-ajax-with-capybara' }
   given(:another_url) { 'https://gist.github.com/Qtechknow/3581263' }
 
-  scenario 'User adds link when asks question' do
+  scenario 'User adds links when asks question', js: true do
     sign_in(user)
     visit new_question_path
 
     fill_in 'Title', with: 'Test question'
     fill_in 'Body', with: 'text text text'
 
-    within '.add_link'.last do
-      click_on 'Add Link'
+    click_on 'add link'
+
+    within '.nested-fields' do
       fill_in 'Link name', with: 'My gist'
       fill_in 'Url', with: url
     end
 
-    within '.add_link'.last do
-      click_on 'Add Link'
+    click_on 'add link'
+
+    within all('.nested-fields').last do
       fill_in 'Link name', with: 'My gist2'
       fill_in 'Url', with: another_url
     end
