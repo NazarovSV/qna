@@ -38,6 +38,7 @@ gem 'bootstrap', '~> 5.0.0.beta1'
 gem 'aws-sdk'
 gem 'dotenv-rails'
 gem "cocoon"
+gem "validate_url"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
