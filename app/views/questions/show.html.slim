@@ -5,12 +5,15 @@ p= question.body
 .attached_files
   = render 'shared/attached_files', resource: question.files
 .links
-  p Links:
-  ul
-    - @question.links.each do |link|
-      = render 'shared/link', resource: link
-
-br
+  - if @question.links.present?
+    p Links:
+    ul
+      - @question.links.each do |link|
+        = render 'shared/link', resource: link
+.reward
+  - if @question.reward.present?
+    p
+      = link_to @question.reward.name, url_for(@question.reward.image), target: '_blank'
 br
 br
 .answer_list

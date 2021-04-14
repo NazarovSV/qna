@@ -17,5 +17,15 @@
     .links
       = link_to_add_association 'add link', f, :links
     br
+  #reward
+    = f.fields_for :reward do |rew|
+      p
+        = rew.label :name, 'Reward name', class: 'form-label'
+        = rew.text_field :name, class: 'form-control'
+      p
+        = rew.label :image, class: 'form-label'
+        br
+        = rew.file_field :image, class: '"form-control-file"', direct_upload: true
+    br
 
   = f.submit 'Ask', class: 'btn btn-primary'
