@@ -19,5 +19,11 @@ FactoryBot.define do
         question.files.attach(io: File.open(Rails.root.join("#{Rails.root}/spec/spec_helper.rb")), filename: 'spec_helper.rb')
       end
     end
+
+    trait :best_answer do
+      after(:create) do |answer|
+        answer.question.best_answer = answer
+      end
+    end
   end
 end

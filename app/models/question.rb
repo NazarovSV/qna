@@ -13,7 +13,5 @@ class Question < ApplicationRecord
 
   accepts_nested_attributes_for :links, reject_if: :all_blank, allow_destroy: true
 
-
-
   validates :title, :body, presence: true
 end
