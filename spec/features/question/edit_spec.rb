@@ -8,6 +8,7 @@ feature 'User can edit his question', %q{
 
   given!(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
+  given(:url) { 'https://thoughtbot.com/blog/automatically-wait-for-ajax-with-capybara' }
 
   scenario 'Unauthenticated can not edit question' do
     visit questions_path
@@ -30,6 +31,7 @@ feature 'User can edit his question', %q{
         within '.questions' do
           fill_in 'Title', with: 'New Title'
           fill_in 'Body', with: 'New Body'
+
           click_on 'Save'
 
           expect(page).to_not have_content question.title
@@ -37,6 +39,20 @@ feature 'User can edit his question', %q{
           expect(page).to have_content 'New Title'
           expect(page).to_not have_selector 'textarea'
         end
+      end
+
+      scenario 'add new link for question' do
+        within '.questions' do
+          click_on 'add link'
+
+          fill_in 'Link name', with: 'My url'
+          fill_in 'Url', with: url
+
+          click_on 'Save'
+        end
+        visit question_path question
+
+        expect(page).to have_link 'My url', href: url
       end
 
       scenario 'add new files for question' do
