@@ -9,6 +9,7 @@ feature 'User can edit his answer', %q{
   given!(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, question: question, user: user ) }
+  given(:url) { 'https://thoughtbot.com/blog/automatically-wait-for-ajax-with-capybara' }
 
   scenario 'Unauthenticated can not edit answer' do
     visit question_path(question)
@@ -76,6 +77,36 @@ feature 'User can edit his answer', %q{
         end
       end
 
+      scenario 'add new link for answer' do
+        click_on 'Edit'
+
+        within '.answers' do
+          click_on 'add link'
+
+          fill_in 'Link name', with: 'My url'
+          fill_in 'Url', with: url
+
+          click_on 'Save'
+
+          expect(page).to have_link 'My url', href: url
+        end
+      end
+
+      scenario 'add new links for best answer' do
+        click_on 'Best Answer!'
+        click_on 'Edit'
+
+        within '.best_answer' do
+          click_on 'add link'
+
+          fill_in 'Link name', with: 'My url'
+          fill_in 'Url', with: url
+
+          click_on 'Save'
+
+          expect(page).to have_link 'My url', href: url
+        end
+      end
     end
 
     scenario "tries to edit other's answer" do

@@ -27,6 +27,11 @@
             = f.label :files, class: 'form-label'
           p
             = f.file_field :files, class: 'form-label', multiple: true, direct_upload: true
+        p Links:
+        #links
+          .links
+            = link_to_add_association 'add link', f, :links
+          br
         = f.submit 'Save', class: "btn btn-primary mt-3"
     - if current_user&.author?(answer.question)
       br
