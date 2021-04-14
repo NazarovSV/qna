@@ -8,7 +8,8 @@ p= question.body
   p Links:
   ul
     - @question.links.each do |link|
-      li= format_link(link)
+      = render 'shared/link', resource: link
+
 br
 br
 br

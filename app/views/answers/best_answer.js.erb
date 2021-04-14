@@ -5,3 +5,5 @@
 $('.answers').html('<%= j render @other_answer %>');
 
 $('<%= ".answer-#{answer.id}-errors" %>').html('<%= render 'shared/errors', resource: answer %>');
+
+loadGist()
