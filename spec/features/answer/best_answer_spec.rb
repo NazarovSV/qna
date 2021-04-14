@@ -51,7 +51,6 @@ feature 'User can choose the best answer', %q{
 
       sleep 1
 
-      puts best_answer.id
       within "#answer_id_#{best_answer.id}" do
         click_on 'Best Answer!'
       end

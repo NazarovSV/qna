@@ -3,6 +3,7 @@
 class User < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :questions, dependent: :destroy
+  has_many :rewards, foreign_key: 'recipient_id', dependent: :nullify
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

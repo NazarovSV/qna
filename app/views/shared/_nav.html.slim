@@ -4,6 +4,8 @@ nav class='navbar navbar-expand-lg navbar-light alert-success'
       'Qna
     - if user_signed_in?
       span class='text-right'
+        = link_to 'Rewards', rewards_index_path
+        ' |
         = link_to t('.logout'), destroy_user_session_path, method: :delete
     - else
       span class='text-right'

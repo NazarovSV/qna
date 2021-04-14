@@ -10,5 +10,7 @@ class Answer < ApplicationRecord
 
   scope :without_best, ->{ joins(:question).where('questions.best_answer_id IS NULL OR questions.best_answer_id != answers.id') }
 
+  scope :best, -> { joins(:question).where('questions.best_answer_id = answers.id') }
+
   validates :body, presence: true
 end
