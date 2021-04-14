@@ -6,6 +6,11 @@
   - if @question.best_answer.files.attached?
     - @question.best_answer.files.each do |file|
       p= link_to file.filename.to_s, url_for(file)
+  .links
+    p Links:
+    ul
+      - @question.best_answer.links.each do |link|
+        = render 'shared/link', resource: link
   br
   br
   - if current_user&.author?(@question.best_answer)

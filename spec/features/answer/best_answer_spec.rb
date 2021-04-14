@@ -9,6 +9,8 @@ feature 'User can choose the best answer', %q{
   given!(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, question: question, user: user ) }
+  given!(:link) { create(:link, linkable: answer) }
+  given!(:gist_link) { create(:link, :gist, linkable: answer) }
 
   scenario 'User cannot choose the best answer if he is not the author of the question', js: true do
     sign_in create(:user)
@@ -30,7 +32,12 @@ feature 'User can choose the best answer', %q{
 
       within ".best_answer" do
         expect(page).to have_content answer.body
+        expect(page).to have_link link.name
+        expect(page).to have_content "Gist for test!"
+        expect(page).to have_link 'remove link'
       end
+
+      expect(page).to_not have_selector(class: 'answers')
     end
 
     scenario 'can choose another better answer' do
