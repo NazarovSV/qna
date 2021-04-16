@@ -35,8 +35,7 @@ class AnswersController < ApplicationController
   end
 
   def best_answer
-    answer.question.update(best_answer: answer)
-    answer.question.reward&.update(recipient: answer.user)
+    answer.best_answer
     @question = answer.question
     @other_answer = answer.question.answers.without_best
   end
