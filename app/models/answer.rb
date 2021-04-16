@@ -13,4 +13,11 @@ class Answer < ApplicationRecord
   scope :best, -> { joins(:question).where('questions.best_answer_id = answers.id') }
 
   validates :body, presence: true
+
+  def best_answer()
+    transaction do
+      question.update!(best_answer: self)
+      question.reward&.update!(recipient: self.user)
+    end
+  end
 end
