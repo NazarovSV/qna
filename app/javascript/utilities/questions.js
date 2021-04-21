@@ -4,5 +4,6 @@ $(document).on('turbolinks:load', function (){
         $(this).hide();
         let questionId = $(this).data('questionId');
         $('form#edit-question-' + questionId).removeClass('hidden');
+        $('#question_rating').append(vote.total)
     })
 });

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
+  include Voted
+
   before_action :authenticate_user!, except: %i[show index]
   expose :question, scope: -> { Question.with_attached_files }
   #expose :links, from: :question

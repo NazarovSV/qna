@@ -12,6 +12,7 @@ class Answer < ApplicationRecord
 
   scope :best, -> { joins(:question).where('questions.best_answer_id = answers.id') }
 
+
   validates :body, presence: true
 
   def best_answer()

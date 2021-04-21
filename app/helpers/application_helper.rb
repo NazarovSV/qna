@@ -27,6 +27,22 @@ module ApplicationHelper
     end
   end
 
+  def button_color(item, user, vote_type)
+    if item.already_vote_so?(user, vote_type)
+      'btn btn-primary'
+    else
+      'btn btn-light'
+    end
+  end
+
+  def rating_id(resource)
+    "#{resource.class.name.downcase}_rating_total_#{resource.id}"
+  end
+
+  def link_id(resource, action_name)
+    "#{resource.class.name.downcase}_rating_#{action_name}_#{resource.id}"
+  end
+
   private
 
   def gist?(url)
