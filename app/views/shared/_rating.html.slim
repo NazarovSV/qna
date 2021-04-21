@@ -1,0 +1,8 @@
+- if current_user && !current_user&.author?(resource)
+  = link_to '-', polymorphic_path(resource, action: :dislike), id: link_id(resource, :dislike), method: :patch, class: button_color(resource, current_user, VoteType::DISLIKE), remote: true
+'
+span id=rating_id(resource)
+  = resource.rating
+'
+- if current_user && !current_user&.author?(resource)
+  = link_to '+', polymorphic_path(resource, action: :like), id: link_id(resource, :like), method: :patch,  class: button_color(resource, current_user, VoteType::LIKE), remote: true

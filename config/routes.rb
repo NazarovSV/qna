@@ -6,7 +6,14 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'questions#index'
 
-  resources :questions, shallow: true do
+  concern :votable do
+    member do
+      patch :like
+      patch :dislike
+    end
+  end
+
+  resources :questions, concerns: :votable, shallow: true do
     resources :answers, shallow: true, only: %i[create destroy update] do
       patch :best_answer, on: :member
     end

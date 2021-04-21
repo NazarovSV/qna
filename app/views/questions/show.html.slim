@@ -1,19 +1,23 @@
 .text-center
   h3= question.title
 br
-p= question.body
-.attached_files
-  = render 'shared/attached_files', resource: question.files
-.links
-  - if @question.links.present?
-    p Links:
-    ul
-      - @question.links.each do |link|
-        = render 'shared/link', resource: link
-.reward
-  - if @question.reward.present?
-    p
-      = link_to @question.reward.name, url_for(@question.reward.image), target: '_blank'
+.question
+  p= question.body
+  .attached_files
+    = render 'shared/attached_files', resource: question.files
+  .links
+    - if @question.links.present?
+      p Links:
+      ul
+        - @question.links.each do |link|
+          = render 'shared/link', resource: link
+  .reward
+    - if @question.reward.present?
+      p
+        = link_to @question.reward.name, url_for(@question.reward.image), target: '_blank'
+  .question_rating
+    = render 'shared/rating', resource: @question
+
 br
 br
 .answer_list
@@ -27,3 +31,5 @@ br
 
 - if user_signed_in?
   = render 'answers/form'
+
+= link_to 'Back', questions_path, remote: true

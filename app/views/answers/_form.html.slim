@@ -1,7 +1,7 @@
 
 .answer-errors
 
-= form_with model: [question, @answer], local: false, class: 'form-group' do |f|
+= form_with model: [question, @answer], local: false, class: 'form-group', data: { type: :json } do |f|
   = f.label :body, class: 'form-label'
   = f.text_area :body, class: 'form-control', rows: 7
   = f.label :files, class: 'form-label'
