@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   end
 
   resources :questions, concerns: :votable, shallow: true do
-    resources :answers, shallow: true, only: %i[create destroy update] do
+    resources :answers, concerns: :votable, shallow: true, only: %i[create destroy update] do
       patch :best_answer, on: :member
     end
   end

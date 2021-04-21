@@ -174,5 +174,6 @@ RSpec.describe AnswersController, type: :controller do
           expect(question.best_answer).not_to be
         end
       end
+    it_behaves_like 'Voted'
   end
 end
