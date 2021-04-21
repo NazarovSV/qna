@@ -1,6 +1,8 @@
 - unless answer.new_record?
-  span id="answer_id_#{answer.id}"
+  div id="answer_id_#{answer.id}"
     = answer.body
+    div class="answer_rating_#{answer.id}"
+      = render 'shared/rating', resource: answer
     = render 'shared/attached_files', resource: answer.files
     .links
       p Links:
