@@ -10,11 +10,11 @@ module Votable
   end
 
   def like(user)
-    vote(user, VoteType::LIKE) unless user.author?(self)
+    vote(user, Vote::LIKE) unless user.author?(self)
   end
 
   def dislike(user)
-    vote(user, VoteType::DISLIKE) unless user.author?(self)
+    vote(user, Vote::DISLIKE) unless user.author?(self)
   end
 
   def already_vote_so?(user, vote_type)
