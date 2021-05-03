@@ -1,0 +1,46 @@
+<div id="answer_id_{{params.answer.id}}">
+  {{params.answer.body}}
+  <div id="answer_rating_{{params.answer.id}}">
+    {{#if user_id }}
+      <a class="btn btn-light" id="answer_rating_dislike_{{params.answer.id}}" data-method="patch" data-remote="true" rel="nofollow" href={{params.dislike_url}} >-</a>
+    {{/if}}
+    <span id="answer_rating_total_{{params.answer.id}}">
+      0
+    </span>
+    {{#if user_id}}
+      <a class="btn btn-light" id="answer_rating_like_{{params.answer.id}}" data-method="patch" data-remote="true" rel="nofollow" href={{params.like_url}} >+</a>
+    {{/if}}
+  </div>
+  {{#if params.files}}
+    {{#each params.files}}
+      <div id="attached_file_id_{{this.id}}">
+        <p>
+          <a href="{{this.url}}">{{this.name}}</a>          
+        </p>
+      </div>
+    {{/each}}
+  {{/if}}
+  <div  class="links">
+    <p>Links:</p>
+    <ul>
+      {{#each params.links}}
+        <div class="link-{{this.id}}">
+          <li>
+            <p>
+              <a target="_blank" href="{{this.url}}">{{this.name}}</a>
+            </p>
+          </li>
+          <br/>
+        </div>
+      {{/each}}
+    </ul>
+  </div>
+  <br/>
+  {{#if is_question_author}}
+    <br/>
+    <a href="{{params.best_answer_url}}" class='link-success' data-answer-id='{{params.answer.id}}' data-remote='true' data-method='patch' rel='nofollow'>Best Answer!</a>
+  {{/if}}
+</div>
+<hr/>
+<br/>
+  

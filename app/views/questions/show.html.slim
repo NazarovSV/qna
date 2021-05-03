@@ -1,7 +1,7 @@
 .text-center
   h3= question.title
 br
-.question
+div class="question" data-question-id="#{question.id}"
   p= question.body
   .attached_files
     = render 'shared/attached_files', resource: question.files
