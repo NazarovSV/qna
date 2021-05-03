@@ -3,6 +3,7 @@
 class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: %i[show index]
+  before_action :gon_current_user, only: :show
   after_action :publish, only: :create
   expose :question, scope: -> { Question.with_attached_files }
   #expose :links, from: :question
@@ -64,7 +65,7 @@ class QuestionsController < ApplicationController
     return if @question.errors.any?
 
     ActionCable.server.broadcast(
-      'question_channel',
+      'questions_channel',
       QuestionsController.renderer.render(
         partial: 'questions/question',
         locals: { question: @question, current_user: current_user }

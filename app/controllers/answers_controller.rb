@@ -2,6 +2,8 @@
 
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[show]
+  # before_action :gon_current_user, only: :publish
+  after_action :publish, only: :create
 
   expose :answer
   expose :question
@@ -11,10 +13,11 @@ class AnswersController < ApplicationController
   def create
     @answer = question.answers.new(answer_params)
     @answer.user = current_user
-    if @answer.save
-      respond_to do |format|
-        format.js { flash.now[:notice] = 'Your answer successfully created!' }
-      end
+
+    return unless @answer.save
+
+    respond_to do |format|
+      format.js { flash.now[:notice] = 'Your answer successfully created!' }
     end
   end
 
@@ -45,6 +48,25 @@ class AnswersController < ApplicationController
   private
 
   def answer_params
-    params.require(:answer).permit(:body, files: [], links_attributes: [:name, :url])
+    params.require(:answer).permit(:body, files: [], links_attributes: %i[name url])
+  end
+
+  def publish
+    return if @answer.errors.any?
+
+    QuestionChannel.broadcast_to(@answer.question, { answer: @answer,
+                                                     user_id: current_user.id,
+                                                     dislike_url: dislike_answer_path(@answer.id),
+                                                     like_url: like_answer_path(@answer.id),
+                                                     files: attached_files,
+                                                     links: @answer.links,
+                                                     question_author_id: @answer.question.user.id,
+                                                     best_answer_url: best_answer_answer_path(@answer) })
+  end
+
+  def attached_files
+    return [] unless @answer.files.any?
+
+    @answer.files.map { |file| { id: file.id, name: file.filename.to_s, url: url_for(file) } }
   end
 end

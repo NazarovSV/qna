@@ -28,17 +28,18 @@ gem 'redis', '~> 4.0'
 # gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
+gem 'aws-sdk'
 gem 'bootsnap', '>= 1.4.4', require: false
+gem 'bootstrap', '~> 5.0.0.beta1'
+gem 'cocoon'
 gem 'decent_exposure', '~> 3.0'
 gem 'devise'
+gem 'dotenv-rails'
+gem 'gon'
+gem 'jquery-rails'
 gem 'rexml'
 gem 'slim-rails'
-gem 'jquery-rails'
-gem 'bootstrap', '~> 5.0.0.beta1'
-gem 'aws-sdk'
-gem 'dotenv-rails'
-gem "cocoon"
-gem "validate_url"
+gem 'validate_url'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

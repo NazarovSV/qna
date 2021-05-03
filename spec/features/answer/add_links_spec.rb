@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-feature 'User can add links to answer', %q{
+feature 'User can add links to answer', %q(
   In order to provide additional info to my answer
   As an answer's author
   I'd like to able to add links
-} do
+) do
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
   given(:url) { 'https://thoughtbot.com/blog/automatically-wait-for-ajax-with-capybara' }
@@ -51,7 +51,7 @@ feature 'User can add links to answer', %q{
     click_on 'Post Your Answer'
 
     within '.answer-errors' do
-      expect(page).to have_content "Links url is not a valid URL"
+      expect(page).to have_content 'Links url is not a valid URL'
     end
   end
 
@@ -68,6 +68,44 @@ feature 'User can add links to answer', %q{
 
     click_on 'Post Your Answer'
 
-    expect(page).to have_content "Gist for test!"
+    expect(page).to have_content 'Gist for test!'
   end
+
+  scenario 'Multiple session. When a user adds a link, users with an open question see the
+            answer with the link immediately', js: true do
+    Capybara.using_session('user') do
+      sign_in(user)
+      visit question_path(question)
+    end
+
+    Capybara.using_session('guest') do
+      visit question_path(question)
+    end
+
+    Capybara.using_session('user') do
+      fill_in 'Body', with: 'text text text'
+
+      click_on 'add link'
+
+      fill_in 'Link name', with: 'My url'
+      fill_in 'Url', with: url
+
+      click_on 'add link'
+
+      within all('.nested-fields').last do
+        fill_in 'Link name', with: 'Another url'
+        fill_in 'Url', with: another_url
+      end
+
+      click_on 'Post Your Answer'
+    end
+
+    Capybara.using_session('guest') do
+      within '.answers' do
+        expect(page).to have_link 'My url', href: url
+        expect(page).to have_link 'Another url', href: another_url
+      end
+    end
+  end
+
 end
