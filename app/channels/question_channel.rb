@@ -1,7 +1,6 @@
 class QuestionChannel < ApplicationCable::Channel
   def subscribed
     stream_for question
-    Rails.logger.info question
   end
 
   def unsubscribed
