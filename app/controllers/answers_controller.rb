@@ -2,13 +2,13 @@
 
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[show]
-  # before_action :gon_current_user, only: :publish
   after_action :publish, only: :create
 
   expose :answer
   expose :question
 
   include Voted
+  include Commented
 
   def create
     @answer = question.answers.new(answer_params)

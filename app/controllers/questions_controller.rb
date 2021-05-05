@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
 class QuestionsController < ApplicationController
-
   before_action :authenticate_user!, except: %i[show index]
   before_action :gon_current_user, only: :show
   after_action :publish, only: :create
   expose :question, scope: -> { Question.with_attached_files }
-  #expose :links, from: :question
 
   include Voted
+  include Commented
 
   def index
     @questions = Question.all

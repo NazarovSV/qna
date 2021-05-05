@@ -11,30 +11,37 @@
           = render 'shared/link', resource: link
 
     br
-    - if current_user&.author?(answer)
-      small
-        = link_to 'Delete', answer_path(answer), method: :delete, remote: true
-        '  |
-        = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-      div class="answer-#{answer.id}-errors"
+    div class="answer_edit_#{answer.id}"
+      - if current_user&.author?(answer)
+        small
+          = link_to 'Delete', answer_path(answer), method: :delete, remote: true
+          '  |
+          = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+        div class="answer-#{answer.id}-errors"
 
-      = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-        p
-          small
-            = f.label :body, 'Your answer:', class: 'form-label'
+        = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
           p
-            = f.text_area :body, class: 'form-control'
-        p
-          small
-            = f.label :files, class: 'form-label'
+            small
+              = f.label :body, 'Your answer:', class: 'form-label'
+            p
+              = f.text_area :body, class: 'form-control'
           p
-            = f.file_field :files, class: 'form-label', multiple: true, direct_upload: true
-        p Links:
-        #links
-          .links
-            = link_to_add_association 'add link', f, :links
-          br
-        = f.submit 'Save', class: "btn btn-primary mt-3"
+            small
+              = f.label :files, class: 'form-label'
+            p
+              = f.file_field :files, class: 'form-label', multiple: true, direct_upload: true
+          p Links:
+          #links
+            .links
+              = link_to_add_association 'add link', f, :links
+            br
+          = f.submit 'Save', class: "btn btn-primary mt-3"
+    div class="answer-comments-#{answer.id}"
+      p= "Comments:"
+      = render answer.comments
+    - if user_signed_in?
+      = render 'comments/form', resource: answer, comment: @comment
+    
     - if current_user&.author?(answer.question)
       br
       = link_to 'Best Answer!', best_answer_answer_path(answer), class: 'link-success', data: { answer_id: answer.id }, remote: true, method: :patch

@@ -1,0 +1,7 @@
+div class="#{resource_name(resource)}-new-comment "
+  div class="#{resource_name(resource)}-comment-errors-#{resource.id}"
+    = render 'shared/errors', resource: resource
+
+  = form_with url: polymorphic_path(resource, action: :comment), method: :post, local: false do |f|
+    = f.text_area :body, class: 'form-control', id: "#{resource_name(resource)}-comment-body-#{resource.id}", rows: 2, placeholder: 'Enter your comment...'
+    = f.submit 'Post', class: "btn btn-primary mt-3"
