@@ -54,7 +54,7 @@ class AnswersController < ApplicationController
   def publish
     return if @answer.errors.any?
 
-    QuestionChannel.broadcast_to(@answer.question, { answer: @answer,
+    AnswersChannel.broadcast_to(@answer.question, { answer: @answer,
                                                      user_id: current_user.id,
                                                      dislike_url: dislike_answer_path(@answer.id),
                                                      like_url: like_answer_path(@answer.id),
