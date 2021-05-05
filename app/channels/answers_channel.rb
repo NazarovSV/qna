@@ -1,4 +1,4 @@
-class QuestionChannel < ApplicationCable::Channel
+class AnswersChannel < ApplicationCable::Channel
   def subscribed
     stream_for question
   end
