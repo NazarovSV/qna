@@ -1,0 +1,7 @@
+$('.<%= "#{resource_name(@comment.commentable)}-comment-errors-#{@comment.commentable.id}" %>').html('<%= render "shared/errors", resource: @comment %>');
+
+<% if @comment.persisted? %>
+  $('<%= ".#{resource_name(@comment.commentable)}-comments-#{@comment.commentable.id}" %>').append('<%= j render @comment %>');
+  $('<%= "##{resource_name(@comment.commentable)}-comment-body-#{@comment.commentable.id}" %>').val('');
+<% end %>
+

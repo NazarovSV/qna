@@ -24,7 +24,7 @@ module Votable
   private
 
   def vote(user, type)
-    if (already_vote?(user))
+    if already_vote? user
       result = votes.find_by(user: user)
 
       value = result.value == type ? result.value - type : type

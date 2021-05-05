@@ -32,7 +32,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'render question view' do
-        post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question, format: :js  }
+        post :create, params: { answer: attributes_for(:answer, :invalid), question_id: question, format: :js }
         expect(response).to render_template :create
       end
     end
@@ -54,14 +54,13 @@ RSpec.describe AnswersController, type: :controller do
         expect(response).to render_template :destroy
         expect(flash[:notice]).to match('Your answer has been successfully deleted!')
       end
-
     end
 
     context 'sign in as not answers author' do
       before { login(create(:user)) }
 
       it 'deletes the answer' do
-        expect { delete :destroy, params: { id: answer }, format: :js  }.to change(Answer, :count).by(0)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to change(Answer, :count).by(0)
       end
 
       it 'renders destroy show' do
@@ -70,7 +69,6 @@ RSpec.describe AnswersController, type: :controller do
         expect(response).to render_template :destroy
         expect(flash[:alert]).to match('You do not have permission to delete the answer!')
       end
-
     end
   end
 
@@ -80,18 +78,18 @@ RSpec.describe AnswersController, type: :controller do
 
       context 'with valid attributes' do
         it 'changes answer attributes' do
-          patch :update, params: { id: answer, answer: {body: 'New body'} }, format: :js
+          patch :update, params: { id: answer, answer: { body: 'New body' } }, format: :js
           answer.reload
           expect(answer.body).to eq 'New body'
         end
 
         it 'renders update view' do
-          patch :update, params: { id: answer, answer: {body: 'New body'} }, format: :js
+          patch :update, params: { id: answer, answer: { body: 'New body' } }, format: :js
           expect(response).to render_template :update
         end
       end
 
-      context  'with invalid attributes' do
+      context 'with invalid attributes' do
         it 'does not change answer attributes' do
           expect do
             patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
@@ -102,9 +100,7 @@ RSpec.describe AnswersController, type: :controller do
           patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
           expect(response).to render_template :update
         end
-
       end
-
     end
 
     context "trying to change other people's answers" do
@@ -122,58 +118,57 @@ RSpec.describe AnswersController, type: :controller do
         patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
         expect(response).to render_template :update
       end
-
     end
-
   end
 
   describe 'PATCH #best_answer' do
+    context 'User is author of question' do
+      before { login(user) }
 
-      context 'User is author of question' do
-        before { login(user) }
-
-        it 'set best answer' do
-          patch :best_answer, params: { id: answer, answer: { best: true} }, format: :js
-          answer.reload
-          expect(answer.question.best_answer).to be
-        end
-
-        it 'set another best answer' do
-          question = create(:question)
-          answers = create_list(:answer, 2, question: question)
-
-          question.update(best_answer: answers.first)
-
-          patch :best_answer, params: { id: answers.second, answer: { best: true} }, format: :js
-
-          question.reload
-
-          expect(question.best_answer).to eq answers.second
-        end
-
-        it 'renders best_answer view' do
-          patch :best_answer, params: { id: answer, answer: { body: 'new body'}, format: :js }
-          expect(response).to render_template :best_answer
-        end
+      it 'set best answer' do
+        patch :best_answer, params: { id: answer, answer: { best: true } }, format: :js
+        answer.reload
+        expect(answer.question.best_answer).to be
       end
 
-      context 'User is not author of question' do
-        before { login(user) }
+      it 'set another best answer' do
+        question = create(:question)
+        answers = create_list(:answer, 2, question: question)
 
-        it 'tries to set best answer' do
-          patch :best_answer, params: { id: answer, answer: { best: true} }, format: :js
-          answer.reload
-          expect(question.best_answer).not_to be
-        end
+        question.update(best_answer: answers.first)
+
+        patch :best_answer, params: { id: answers.second, answer: { best: true } }, format: :js
+
+        question.reload
+
+        expect(question.best_answer).to eq answers.second
       end
 
-      context 'Unauthorized user' do
-        it 'tries to set best answer' do
-          patch :best_answer, params: { id: answer, answer: { best: true} }, format: :js
-          answer.reload
-          expect(question.best_answer).not_to be
-        end
+      it 'renders best_answer view' do
+        patch :best_answer, params: { id: answer, answer: { body: 'new body' }, format: :js }
+        expect(response).to render_template :best_answer
       end
+    end
+
+    context 'User is not author of question' do
+      before { login(user) }
+
+      it 'tries to set best answer' do
+        patch :best_answer, params: { id: answer, answer: { best: true } }, format: :js
+        answer.reload
+        expect(question.best_answer).not_to be
+      end
+    end
+
+    context 'Unauthorized user' do
+      it 'tries to set best answer' do
+        patch :best_answer, params: { id: answer, answer: { best: true } }, format: :js
+        answer.reload
+        expect(question.best_answer).not_to be
+      end
+    end
+
     it_behaves_like 'Voted'
+    it_behaves_like 'Commented'
   end
 end

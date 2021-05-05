@@ -57,5 +57,3 @@ shared_examples 'Votable' do
     expect(user.votes.last&.value).to be_nil
   end
 end
-
-

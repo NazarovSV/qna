@@ -2,6 +2,7 @@
 
 class Answer < ApplicationRecord
   include Votable
+  include Commentable
 
   belongs_to :question
   belongs_to :user
@@ -10,17 +11,18 @@ class Answer < ApplicationRecord
 
   accepts_nested_attributes_for :links, reject_if: :all_blank
 
-  scope :without_best, ->{ joins(:question).where('questions.best_answer_id IS NULL OR questions.best_answer_id != answers.id') }
+  scope :without_best, lambda {
+                         joins(:question).where('questions.best_answer_id IS NULL OR questions.best_answer_id != answers.id')
+                       }
 
   scope :best, -> { joins(:question).where('questions.best_answer_id = answers.id') }
 
-
   validates :body, presence: true
 
-  def best_answer()
+  def best_answer
     transaction do
       question.update!(best_answer: self)
-      question.reward&.update!(recipient: self.user)
+      question.reward&.update!(recipient: user)
     end
   end
 end
