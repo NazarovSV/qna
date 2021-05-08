@@ -8,9 +8,10 @@ RSpec.describe User, type: :model do
 
   it { is_expected.to have_many(:answers).dependent(:destroy) }
   it { is_expected.to have_many(:questions).dependent(:destroy) }
+  it { is_expected.to have_many(:authorizations).dependent(:destroy) }
 
   describe "checking the question's author" do
-    let (:question) { create(:question) }
+    let(:question) { create(:question) }
 
     it 'current user is the author of the question' do
       user = question.user
@@ -23,6 +24,16 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '.find_for_oauth' do
+    let!(:user) { create(:user) }
+    let(:auth) { OmniAuth::AuthHash.new(provider: 'github', uid: '123456', info: { email: user.email }) }
+    let(:service) { double('FindForOauth') }
 
+    it 'calls FindForOauth' do
+      expect(FindForOauth).to receive(:new).with(auth).and_return(service)
+      expect(service).to receive(:call)
 
+      User.find_for_oauth(auth)
+    end
+  end
 end

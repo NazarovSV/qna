@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   get 'rewards/index'
   get 'links/destroy'
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
   root to: 'questions#index'
 
   concern :votable do
