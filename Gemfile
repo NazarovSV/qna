@@ -40,6 +40,7 @@ gem 'jquery-rails'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-rails_csrf_protection'
+gem 'omniauth-vkontakte'
 gem 'rexml'
 gem 'slim-rails'
 gem 'validate_url'
@@ -60,6 +61,7 @@ group :development do
   gem 'rack-mini-profiler', '~> 2.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'letter_opener'
 end
 
 group :test do
@@ -71,6 +73,7 @@ group :test do
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'launchy'
   gem 'webdrivers'
+  gem 'capybara-email'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

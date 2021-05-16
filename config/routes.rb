@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :user_emails, only: %i[new create]
+
   resources :attachment_files, only: %i[destroy]
   resources :links, only: %i[destroy]
   resources :rewards, only: %i[index]

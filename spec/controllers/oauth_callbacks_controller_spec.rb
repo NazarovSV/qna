@@ -6,7 +6,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
   end
 
   describe 'github' do
-    let(:oauth_data) { {'provider' => 'github', 'uid' => 123 } }
+    let!(:oauth_data) { mock_auth_hash(provider: 'github', email: 'user@example.com') }
     it 'finds user from oauth data' do
       allow(request.env).to receive(:[]).and_call_original
       allow(request.env).to receive(:[]).with('omniauth.auth').and_return(oauth_data)
@@ -33,15 +33,16 @@ RSpec.describe OauthCallbacksController, type: :controller do
 
     context 'user does not exist' do
       before do
-        allow(User).to receive(:find_for_oauth)
-        get :github
+        request.env['omniauth.auth'] = mock_auth_hash(provider: 'github', email: 'user@example.com')
       end
+
       it 'redirect to root path' do
+        get :github
         expect(response).to redirect_to root_path
       end
 
-      it 'does not login user' do
-        expect(subject.current_user).to_not be
+      it 'create user' do
+        expect { get :github }.to change(User, :count).by(1)
       end
     end
   end
