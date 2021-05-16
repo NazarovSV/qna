@@ -11,8 +11,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: [:github]
+         :recoverable, :rememberable, :validatable, :confirmable,
+         :omniauthable, omniauth_providers: %i[github vkontakte]
 
   def author?(entity)
     id == entity.user_id
@@ -20,5 +20,15 @@ class User < ApplicationRecord
 
   def self.find_for_oauth(auth)
     FindForOauth.new(auth).call
+  end
+
+  def self.save_with_oauth(email:, uid:, provider:)
+    password = Devise.friendly_token[0, 20]
+    user = new(email: email, password: password, password_confirmation: password)
+    transaction do
+      user.authorizations.new(uid: uid, provider: provider)
+      user.save
+    end
+    user
   end
 end

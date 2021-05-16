@@ -36,4 +36,40 @@ RSpec.describe User, type: :model do
       User.find_for_oauth(auth)
     end
   end
+
+  describe '.create_with_oauth' do
+    context 'valid params' do
+      it 'create a new user' do
+        expect{User.save_with_oauth(email: 'test@example.com', uid: '123', provider: 'provider')}.to change(User, :count).by(1)
+      end
+
+      it 'create a new users authorization' do
+        expect{ User.save_with_oauth(email: 'test@example.com', uid: '123', provider: 'provider') }.to change(Authorization, :count).by(1)
+      end
+
+    end
+
+    context 'invalid params' do
+      describe 'invalid email' do
+        it 'user is not created' do
+          expect{User.save_with_oauth(email: nil, uid: '123', provider: 'provider')}.to change(User, :count).by(0)
+        end
+
+        it 'user authorization is not created' do
+          expect{ User.save_with_oauth(email: nil, uid: '123', provider: 'provider') }.to change(Authorization, :count).by(0)
+        end
+      end
+
+      describe 'invalid uid & provider' do
+        it 'user is not created' do
+          expect{User.save_with_oauth(email: nil, uid: '123', provider: 'provider')}.to change(User, :count).by(0)
+        end
+
+        it 'user authorization  is not created' do
+          expect{ User.save_with_oauth(email: nil, uid: '123', provider: 'provider') }.to change(Authorization, :count).by(0)
+        end
+      end
+    end
+
+  end
 end

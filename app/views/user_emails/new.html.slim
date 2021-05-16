@@ -1,0 +1,9 @@
+h2 Enter your email:
+
+= render 'shared/errors', resource: @user
+
+= form_with url: user_emails_path, method: :post do |f|
+  p
+    = f.label :email, class: 'form-label'
+    = f.text_field :email, class: 'form-control'
+  = f.submit 'Send', class: 'btn btn-primary'
