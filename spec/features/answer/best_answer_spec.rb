@@ -32,6 +32,8 @@ feature 'User can choose the best answer', '
 
         click_on 'Best Answer!'
 
+        sleep 1
+
         within '.best_answer' do
           expect(page).to have_content answer.body
           expect(page).to have_link link.name
