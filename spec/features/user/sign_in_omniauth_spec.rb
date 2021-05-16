@@ -48,6 +48,20 @@ feature 'User can authorization from providers', '
           expect(page).to have_content 'Successfully authenticated from VK account.'
         end
 
+        scenario 'user cant login with vk account without confirmation' do
+          clear_emails
+          mock_auth_hash(provider: 'vkontakte')
+
+          click_on 'Sign in with Vkontakte'
+          fill_in 'Email', with: 'user@example.com'
+
+          click_on 'Send'
+          click_on 'Login'
+          click_on 'Sign in with Vkontakte'
+
+          expect(page).to have_content "Confirm your email user@example.com!"
+        end
+
         scenario 'can handle authentication error' do
           OmniAuth.config.mock_auth[:vkontakte] = :invalid
           click_on 'Sign in with Vkontakte'
