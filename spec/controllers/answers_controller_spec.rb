@@ -64,11 +64,10 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
       end
 
-      it 'renders destroy show' do
+      it '403' do
         delete :destroy, params: { id: answer }, format: :js
 
-        expect(response).to redirect_to root_path
-        expect(flash[:alert]).to match('You are not authorized to access this page.')
+        is_expected.to respond_with 403
       end
     end
   end
@@ -115,9 +114,9 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.body).to_not eq 'new body'
       end
 
-      it 'redirect to root path view' do
+      it '403' do
         patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
-        expect(response).to redirect_to root_path
+        is_expected.to respond_with 403
       end
     end
   end

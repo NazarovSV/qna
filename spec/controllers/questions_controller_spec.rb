@@ -131,10 +131,10 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.body).to eq old_body
       end
 
-      it 'redirect to root path' do
+      it '403' do
         patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
 
-        expect(response).to redirect_to root_path
+        is_expected.to respond_with 403
       end
     end
   end

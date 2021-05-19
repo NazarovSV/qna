@@ -7,7 +7,12 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     Rails.logger.debug "Access denied on #{exception.action} #{exception.subject.inspect}"
-    redirect_to root_path, alert: exception.message
+    respond_to do |format|
+      format.html { redirect_to root_path, alert: exception.message }
+      format.js { render status: :forbidden }
+      format.json { render json: exception.message, status: :forbidden }
+    end
+    #redirect_to root_path, alert: exception.message
   end
 
   check_authorization unless: :devise_controller?
