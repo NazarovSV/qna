@@ -12,7 +12,6 @@ class ApplicationController < ActionController::Base
       format.js { render status: :forbidden }
       format.json { render json: exception.message, status: :forbidden }
     end
-    #redirect_to root_path, alert: exception.message
   end
 
   check_authorization unless: :devise_controller?
