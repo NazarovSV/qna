@@ -6,7 +6,7 @@ module Voted
   end
 
   def dislike
-    if !current_user.author?(@votable) && @votable.dislike(current_user) == Vote::DISLIKE
+    if @votable.dislike(current_user) == Vote::DISLIKE
       render json: { id: @votable.id, resource: @votable.class.name.downcase, rating: @votable.rating, dislike: true }
     else
       render json: { id: @votable.id, resource: @votable.class.name.downcase, rating: @votable.rating }
@@ -14,7 +14,7 @@ module Voted
   end
 
   def like
-    if !current_user.author?(@votable) && @votable.like(current_user) == Vote::LIKE
+    if @votable.like(current_user) == Vote::LIKE
       render json: { id: @votable.id, resource: @votable.class.name.downcase, rating: @votable.rating, like: true }
     else
       render json: { id: @votable.id, resource: @votable.class.name.downcase, rating: @votable.rating }

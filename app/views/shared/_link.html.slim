@@ -1,6 +1,7 @@
 div class="link-#{resource.id}"
   li
     p= format_link(resource)
-    - if current_user&.author?(resource.linkable)
+    /- if current_user&.author?(resource.linkable)
+    - if can?(:destroy, resource)
       = link_to 'remove link', link_path(resource.id), method: :delete, remote: true
   br

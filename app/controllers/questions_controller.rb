@@ -9,6 +9,8 @@ class QuestionsController < ApplicationController
   include Voted
   include Commented
 
+  load_and_authorize_resource
+
   def index
     @questions = Question.all
   end
@@ -37,17 +39,13 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    question.update(question_params) if current_user.author?(question)
+    question.update(question_params)
     @questions = Question.all
   end
 
   def destroy
-    if current_user.author?(question)
-      question.destroy!
-      redirect_to questions_path, notice: 'Your question has been successfully deleted!'
-    else
-      redirect_to questions_path, alert: 'You do not have permission to delete the question!'
-    end
+    question.destroy!
+    redirect_to questions_path, notice: 'Your question has been successfully deleted!'
   end
 
   private
@@ -65,10 +63,8 @@ class QuestionsController < ApplicationController
 
     ActionCable.server.broadcast(
       'questions_channel',
-      QuestionsController.renderer.render(
-        partial: 'questions/question',
-        locals: { question: @question, current_user: current_user }
-      )
+      { question: @question,
+        question_url: question_url(@question) }
     )
   end
 end

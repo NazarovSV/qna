@@ -1,6 +1,7 @@
-p= link_to 'Ask question', new_question_path
-br
-br
+- if can?(:create, Question)
+  p= link_to 'Ask question', new_question_path
+  br
+  br
 b= "Questions: "
 br
 br
