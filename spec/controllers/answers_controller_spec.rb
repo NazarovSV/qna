@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:user) { create(:user) }
-  let(:question) { create(:question) }
-  let(:answer) { create(:answer, question: question, user: user) }
+  let!(:user) { create(:user) }
+  let!(:question) { create(:question) }
+  let!(:answer) { create(:answer, question: question, user: user) }
 
   describe 'POST #create' do
     before { login(user) }
@@ -57,17 +57,18 @@ RSpec.describe AnswersController, type: :controller do
     end
 
     context 'sign in as not answers author' do
-      before { login(create(:user)) }
+      let!(:other_user) { create(:user) }
+      before { login(other_user) }
 
       it 'deletes the answer' do
-        expect { delete :destroy, params: { id: answer }, format: :js }.to change(Answer, :count).by(0)
+        expect { delete :destroy, params: { id: answer }, format: :js }.to_not change(Answer, :count)
       end
 
       it 'renders destroy show' do
         delete :destroy, params: { id: answer }, format: :js
 
-        expect(response).to render_template :destroy
-        expect(flash[:alert]).to match('You do not have permission to delete the answer!')
+        expect(response).to redirect_to root_path
+        expect(flash[:alert]).to match('You are not authorized to access this page.')
       end
     end
   end
@@ -114,9 +115,9 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer.body).to_not eq 'new body'
       end
 
-      it 'renders update view' do
+      it 'redirect to root path view' do
         patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
-        expect(response).to render_template :update
+        expect(response).to redirect_to root_path
       end
     end
   end

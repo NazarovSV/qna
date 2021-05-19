@@ -131,10 +131,10 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.body).to eq old_body
       end
 
-      it 'renders update view' do
+      it 'redirect to root path' do
         patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
 
-        expect(response).to render_template :update
+        expect(response).to redirect_to root_path
       end
     end
   end
@@ -167,8 +167,8 @@ RSpec.describe QuestionsController, type: :controller do
       it 're-renders to question index' do
         delete :destroy, params: { id: question }
 
-        expect(response).to redirect_to questions_path
-        expect(flash[:alert]).to match('You do not have permission to delete the question!')
+        expect(response).to redirect_to root_path
+        expect(flash[:alert]).to match('You are not authorized to access this page.')
       end
 
     end

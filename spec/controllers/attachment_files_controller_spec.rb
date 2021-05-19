@@ -28,13 +28,6 @@ RSpec.describe AttachmentFilesController, type: :controller do
       it 'try delete file from question' do
         expect { delete :destroy, params: { id: question.files.first }, format: :js }.to change(question.files, :count).by(0)
       end
-
-      it 'render delete view' do
-        delete :destroy, params: { id: question.files.first }, format: :js
-
-        expect(response).to render_template :destroy
-      end
-
     end
 
     context 'sign in as answer author' do
@@ -57,13 +50,6 @@ RSpec.describe AttachmentFilesController, type: :controller do
       it 'try delete file from question' do
         expect { delete :destroy, params: { id: answer.files.first }, format: :js }.to change(answer.files, :count).by(0)
       end
-
-      it 'render delete view' do
-        delete :destroy, params: { id: answer.files.first }, format: :js
-
-        expect(response).to render_template :destroy
-      end
-
     end
   end
 

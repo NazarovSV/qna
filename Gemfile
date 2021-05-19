@@ -31,6 +31,7 @@ gem 'redis', '~> 4.0'
 gem 'aws-sdk'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'bootstrap', '~> 5.0.0.beta1'
+gem 'cancancan'
 gem 'cocoon'
 gem 'decent_exposure', '~> 3.0'
 gem 'devise', github: 'heartcombo/devise', branch: 'master'

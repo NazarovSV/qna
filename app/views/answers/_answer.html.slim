@@ -12,9 +12,11 @@
 
     br
     div class="answer_edit_#{answer.id}"
-      - if current_user&.author?(answer)
-        small
+      /- if current_user&.author?(answer)
+      small
+        - if can?(:update, answer)
           = link_to 'Delete', answer_path(answer), method: :delete, remote: true
+        - if can?(:destroy, answer)
           '  |
           = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
         div class="answer-#{answer.id}-errors"
@@ -41,8 +43,8 @@
       = render answer.comments
     - if user_signed_in?
       = render 'comments/form', resource: answer, comment: @comment
-    
-    - if current_user&.author?(answer.question)
+
+    - if can?(:best_answer, answer)
       br
       = link_to 'Best Answer!', best_answer_answer_path(answer), class: 'link-success', data: { answer_id: answer.id }, remote: true, method: :patch
   hr

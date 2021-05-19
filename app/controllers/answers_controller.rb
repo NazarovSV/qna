@@ -10,6 +10,8 @@ class AnswersController < ApplicationController
   include Voted
   include Commented
 
+  authorize_resource
+
   def create
     @answer = question.answers.new(answer_params)
     @answer.user = current_user
@@ -22,20 +24,21 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if current_user.author?(answer)
-      answer.question.update(best_answer: nil) if answer == answer.question.best_answer
-      answer.destroy!
-      flash.now[:notice] = 'Your answer has been successfully deleted!'
-    else
-      flash.now[:alert] = 'You do not have permission to delete the answer!'
-    end
+    authorize! :destroy, answer
+
+    answer.question.update(best_answer: nil) if answer == answer.question.best_answer
+    answer.destroy!
+
+    flash.now[:notice] = 'Your answer has been successfully deleted!'
     @question = answer.question
 
     respond_to :js
   end
 
   def update
-    answer.update(answer_params) if current_user.author?(answer)
+    authorize! :update, answer
+
+    answer.update(answer_params)
     @question = answer.question
   end
 
