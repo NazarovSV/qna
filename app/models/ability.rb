@@ -37,5 +37,6 @@ class Ability
     can :destroy, ActiveStorage::Attachment do |files|
       @user.author?(files.record)
     end
+    can :me, User
   end
 end
