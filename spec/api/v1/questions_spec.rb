@@ -7,7 +7,7 @@ describe 'Questions API', type: :request do
   describe 'GET /api/v1/questions' do
     let(:api_path) { '/api/v1/questions' }
     it_behaves_like 'API Authorizable' do
-      let(:method) { 'GET' }
+      let(:method) { :get }
     end
 
     context 'authorized' do
