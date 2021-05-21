@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  use_doorkeeper
   get 'rewards/index'
   get 'links/destroy'
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
@@ -20,6 +21,15 @@ Rails.application.routes.draw do
   resources :questions, concerns: %i[votable commentable], shallow: true do
     resources :answers, concerns: %i[votable commentable], shallow: true, only: %i[create destroy update] do
       patch :best_answer, on: :member
+    end
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: [] do
+        get :me, on: :collection
+      end
+      resources :questions, only: [:index]
     end
   end
 
