@@ -6,7 +6,7 @@ describe 'Profiles API', type: :request do
 
   let(:api_path) { '/api/v1/profiles/me' }
   it_behaves_like 'API Authorizable' do
-    let(:method) { 'GET' }
+    let(:method) { :get }
   end
 
   context 'authorized' do
@@ -23,13 +23,13 @@ describe 'Profiles API', type: :request do
 
     it 'return all public fields' do
       %w[id email admin created_at updated_at].each do |field|
-        expect(json[field]).to eq me.send(field).as_json
+        expect(json['user'][field]).to eq me.send(field).as_json
       end
     end
 
     it 'does not return private fields' do
       %w[password encrypted_password].each do |field|
-        expect(json).to_not have_key(field)
+        expect(json['user']).to_not have_key(field)
       end
     end
   end
