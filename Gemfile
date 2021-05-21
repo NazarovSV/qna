@@ -45,6 +45,9 @@ gem 'omniauth-vkontakte'
 gem 'rexml'
 gem 'slim-rails'
 gem 'validate_url'
+gem 'doorkeeper', '5.5.0'
+gem 'active_model_serializers', '~> 0.10'
+gem 'oj'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
