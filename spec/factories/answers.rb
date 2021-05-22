@@ -15,8 +15,15 @@ FactoryBot.define do
     end
 
     trait :with_attached_file do
-      after(:create) do |question|
-        question.files.attach(io: File.open(Rails.root.join("#{Rails.root}/spec/spec_helper.rb")), filename: 'spec_helper.rb')
+      after(:create) do |answer|
+        answer.files.attach(io: File.open(Rails.root.join("#{Rails.root}/spec/spec_helper.rb")), filename: 'spec_helper.rb')
+      end
+    end
+
+    trait :with_attached_files do
+      after(:create) do |answer|
+        answer.files.attach(io: File.open(Rails.root.join("#{Rails.root}/spec/spec_helper.rb")), filename: 'spec_helper.rb')
+        answer.files.attach(io: File.open(Rails.root.join("#{Rails.root}/spec/rails_helper.rb")), filename: 'rails_helper.rb')
       end
     end
 
