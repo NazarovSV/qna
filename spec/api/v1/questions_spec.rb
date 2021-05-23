@@ -132,7 +132,7 @@ describe 'Questions API', type: :request do
 
         it 'not return errors' do
           post api_path, params: { question: attributes_for(:question, :with_link), access_token: access_token.token }
-          expect(json).to_not have_key(:errors)
+          expect(response.body).to be_empty
         end
       end
 
@@ -208,7 +208,7 @@ describe 'Questions API', type: :request do
           end
 
           it 'return errors' do
-            expect(json).to_not have_key(:errors)
+            expect(json).to have_key('errors')
           end
         end
       end
