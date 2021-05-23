@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 describe 'Questions API', type: :request do
-  let(:headers) {{ "CONTENT_TYPE" => 'application/json',
-                   "ACCEPT" => 'application/json' }}
+  let(:headers) {{ "ACCEPT" => 'application/json' }}
 
   describe 'GET /api/v1/questions' do
     let(:api_path) { '/api/v1/questions' }
@@ -106,6 +105,57 @@ describe 'Questions API', type: :request do
         let(:file_response) { files_response.first }
         #let(:files_url) { question_response['files'] }
         let(:files) { question.files }
+      end
+    end
+  end
+
+  describe 'POST /api/v1/questions' do
+    let(:api_path) { '/api/v1/questions' }
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :post }
+    end
+
+    context 'authorized' do
+      let(:access_token) { create(:access_token) }
+
+      before do
+        get '/api/v1/questions', params: { access_token: access_token.token }, headers: headers
+      end
+
+      context 'valid params' do
+        it 'saves a new question in the database' do
+          expect do
+            post '/api/v1/questions', params: { question: attributes_for(:question, :with_link), access_token: access_token.token }
+          end.to change(Question, :count).by(1)
+        end
+
+        it 'return status 201' do
+          post '/api/v1/questions', params: { question: attributes_for(:question, :with_link), access_token: access_token.token }
+          expect(response).to have_http_status(:created)
+        end
+
+        it 'not return errors' do
+          post '/api/v1/questions', params: { question: attributes_for(:question, :with_link), access_token: access_token.token }
+          expect(json).to_not have_key(:errors)
+        end
+      end
+
+      context 'invalid params' do
+        it 'does not save the question with invalid params' do
+          expect do
+            post '/api/v1/questions', params: { question: attributes_for(:question, :invalid) }
+          end.to_not change(Question, :count)
+        end
+
+        it 'return status 201' do
+          post '/api/v1/questions', params: { question: attributes_for(:question, :invalid), access_token: access_token.token }
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'return errors' do
+          post '/api/v1/questions', params: { question: attributes_for(:question, :invalid), access_token: access_token.token }
+          expect(json).to_not have_key(:errors)
+        end
       end
     end
   end

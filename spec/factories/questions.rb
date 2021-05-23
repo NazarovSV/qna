@@ -28,5 +28,9 @@ FactoryBot.define do
       end
     end
 
+    trait :with_link do
+      links { [attributes_for(:link)] }
+    end
+
   end
 end
