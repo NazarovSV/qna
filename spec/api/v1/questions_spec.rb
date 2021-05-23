@@ -52,7 +52,7 @@ describe 'Questions API', type: :request do
         end
 
         it 'returns all public fields' do
-          %w[id body user_id created_at updated_at].each do |field|
+          %w[id body created_at updated_at].each do |field|
             expect(answer_response[field]).to eq answer.send(field).as_json
           end
         end
@@ -88,53 +88,24 @@ describe 'Questions API', type: :request do
         end
       end
 
-      describe 'comments' do
+      it_behaves_like 'API Commentable' do
         let(:comment) { comments.first }
-        let(:comment_response) { question_response['comments'].first }
-
-        it 'returns list of answers' do
-          expect(question_response['comments'].size).to eq 3
-        end
-
-        it 'returns all public fields' do
-          %w[id body user_id created_at updated_at].each do |field|
-            expect(comment_response[field]).to eq comment.send(field).as_json
-          end
-        end
-
-        it 'does not return private fields' do
-          %w[commentable_id, commentable_type].each do |field|
-            expect(comment_response).to_not have_key(field)
-          end
-        end
+        let(:comments_response) { question_response['comments'] }
+        let(:comment_response) { comments_response.first }
       end
 
-      describe 'links' do
+      it_behaves_like 'API Linkable' do
         let(:link) { links.first }
-        let(:link_response) { question_response['links'].first }
-
-        it 'returns list of links' do
-          expect(question_response['links'].size).to eq 3
-        end
-
-        it 'returns all public fields' do
-          %w[id name url created_at updated_at].each do |field|
-            expect(link_response[field]).to eq link.send(field).as_json
-          end
-        end
+        let(:links_response) { question_response['links'] }
+        let(:link_response) { links_response.first }
       end
 
-      describe 'attached files' do
+      it_behaves_like 'API Attacheble' do
         let(:file) { question.files.first }
-        let(:file_url) { question_response['files'].first }
-
-        it 'returns list of links' do
-          expect(question_response['files'].size).to eq 2
-        end
-
-        it 'return url' do
-          expect(file_url).to eq rails_blob_url(file, only_path: true )
-        end
+        let(:files_response) { question_response['files'] }
+        let(:file_response) { files_response.first }
+        #let(:files_url) { question_response['files'] }
+        let(:files) { question.files }
       end
     end
   end

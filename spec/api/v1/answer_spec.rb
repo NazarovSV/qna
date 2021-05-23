@@ -81,54 +81,23 @@ describe 'Answer API', type: :request do
         end
       end
 
-      describe 'comments' do
-        let!(:comment) { comments.first }
-        let!(:comment_response) { json['answer']['comments'].first }
-
-        it 'returns list of answers' do
-          puts json
-          expect(json['answer']['comments'].size).to eq 3
-        end
-
-        it 'returns all public fields' do
-          %w[id body user_id created_at updated_at].each do |field|
-            expect(comment_response[field]).to eq comment.send(field).as_json
-          end
-        end
-
-        it 'does not return private fields' do
-          %w[commentable_id, commentable_type].each do |field|
-            expect(comment_response).to_not have_key(field)
-          end
-        end
+      it_behaves_like 'API Commentable' do
+        let(:comment) { comments.first }
+        let(:comments_response) { json['answer']['comments'] }
+        let(:comment_response) { comments_response.first }
       end
 
-      describe 'links' do
+      it_behaves_like 'API Linkable' do
         let(:link) { links.first }
-        let(:link_response) { json['answer']['links'].first }
-
-        it 'returns list of links' do
-          expect(json['answer']['links'].size).to eq 3
-        end
-
-        it 'returns all public fields' do
-          %w[id name url created_at updated_at].each do |field|
-            expect(link_response[field]).to eq link.send(field).as_json
-          end
-        end
+        let(:links_response) { json['answer']['links'] }
+        let(:link_response) { links_response.first }
       end
 
-      describe 'attached files' do
+      it_behaves_like 'API Attacheble' do
         let(:file) { answer.files.first }
-        let(:file_url) { json['answer']['files'].first }
-
-        it 'returns list of links' do
-          expect(json['answer']['files'].size).to eq 2
-        end
-
-        it 'return url' do
-          expect(file_url).to eq rails_blob_url(file, only_path: true )
-        end
+        let(:files_response) { json['answer']['files'] }
+        let(:file_response) { files_response.first }
+        let(:files) { answer.files }
       end
     end
   end
