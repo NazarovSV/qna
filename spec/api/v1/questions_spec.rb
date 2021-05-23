@@ -118,24 +118,20 @@ describe 'Questions API', type: :request do
     context 'authorized' do
       let(:access_token) { create(:access_token) }
 
-      before do
-        get '/api/v1/questions', params: { access_token: access_token.token }, headers: headers
-      end
-
       context 'valid params' do
         it 'saves a new question in the database' do
           expect do
-            post '/api/v1/questions', params: { question: attributes_for(:question, :with_link), access_token: access_token.token }
+            post api_path, params: { question: attributes_for(:question, :with_link), access_token: access_token.token }
           end.to change(Question, :count).by(1)
         end
 
         it 'return status 201' do
-          post '/api/v1/questions', params: { question: attributes_for(:question, :with_link), access_token: access_token.token }
+          post api_path, params: { question: attributes_for(:question, :with_link), access_token: access_token.token }
           expect(response).to have_http_status(:created)
         end
 
         it 'not return errors' do
-          post '/api/v1/questions', params: { question: attributes_for(:question, :with_link), access_token: access_token.token }
+          post api_path, params: { question: attributes_for(:question, :with_link), access_token: access_token.token }
           expect(json).to_not have_key(:errors)
         end
       end
@@ -143,19 +139,77 @@ describe 'Questions API', type: :request do
       context 'invalid params' do
         it 'does not save the question with invalid params' do
           expect do
-            post '/api/v1/questions', params: { question: attributes_for(:question, :invalid) }
+            post api_path, params: { question: attributes_for(:question, :invalid) }
           end.to_not change(Question, :count)
         end
 
-        it 'return status 201' do
-          post '/api/v1/questions', params: { question: attributes_for(:question, :invalid), access_token: access_token.token }
+        it 'return status 422' do
+          post api_path, params: { question: attributes_for(:question, :invalid), access_token: access_token.token }
           expect(response).to have_http_status(:unprocessable_entity)
         end
 
         it 'return errors' do
-          post '/api/v1/questions', params: { question: attributes_for(:question, :invalid), access_token: access_token.token }
+          post api_path, params: { question: attributes_for(:question, :invalid), access_token: access_token.token }
           expect(json).to_not have_key(:errors)
         end
+      end
+    end
+  end
+
+  describe 'PUT /api/v1/questions/:id' do
+    let!(:user) { create(:user, confirmed_at: DateTime.now) }
+    let!(:question) { create(:question, user: user) }
+    let!(:api_path) { "/api/v1/questions/#{question.id}" }
+    let!(:access_token) { create(:access_token, resource_owner_id: user.id) }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :put }
+    end
+
+    context 'authorized' do
+
+      context 'valid params' do
+        before do
+          put api_path, params: { id: question,
+                                    question: { title: 'new title', body: 'new body' },
+                                    access_token: access_token.token }
+        end
+
+        it 'changes question attributes' do
+          question.reload
+
+          expect(question.title).to eq 'new title'
+          expect(question.body).to eq 'new body'
+        end
+
+        it 'returns status 200' do
+          expect(response).to be_successful
+        end
+      end
+
+      context 'invalid params' do
+        before do
+          put api_path, params: { id: question,
+                                  question: attributes_for(:question, :invalid),
+                                  access_token: access_token.token }
+        end
+
+        it 'does not change attributes for question' do
+          preview_state = question
+          question.reload
+
+          expect(question.title).to eq preview_state.title
+          expect(question.body).to eq preview_state.body
+        end
+
+        it 'return status 422' do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+
+        it 'return errors' do
+          expect(json).to_not have_key(:errors)
+        end
+
       end
     end
   end
