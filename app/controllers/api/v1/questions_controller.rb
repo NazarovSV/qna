@@ -1,5 +1,5 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
-  before_action :find_question, only: %i[show update]
+  before_action :find_question, only: %i[show update destroy]
 
   authorize_resource
 
@@ -9,6 +9,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   def show
+    return head :not_found unless @question
     render json: @question
   end
 
@@ -23,8 +24,20 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   def update
+    return head :not_found unless @question
+
     if @question.update(question_params)
-      render json: @question, status: :ok
+      head :ok
+    else
+      render json: { errors: @question.errors }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    return head :not_found unless @question
+
+    if @question.destroy
+      head :ok
     else
       render json: { errors: @question.errors }, status: :unprocessable_entity
     end
@@ -33,7 +46,9 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   private
 
   def find_question
-    @question = Question.find(params[:id])
+    @question =  Question.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    @question = nil
   end
 
   def question_params
