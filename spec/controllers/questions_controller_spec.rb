@@ -170,7 +170,6 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to redirect_to root_path
         expect(flash[:alert]).to match('You are not authorized to access this page.')
       end
-
     end
   end
 
