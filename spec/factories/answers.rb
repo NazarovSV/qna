@@ -32,5 +32,9 @@ FactoryBot.define do
         answer.question.best_answer = answer
       end
     end
+
+    trait :with_link do
+      links { [attributes_for(:link)] }
+    end
   end
 end

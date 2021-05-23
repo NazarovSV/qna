@@ -17,7 +17,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     question = current_resource_owner.questions.new(question_params)
 
     if question.save
-      render json: question, status: :created
+      head :created
     else
       render json: { errors: question.errors }, status: :unprocessable_entity
     end
@@ -46,7 +46,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   private
 
   def find_question
-    @question =  Question.find(params[:id])
+    @question = Question.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     @question = nil
   end
