@@ -31,4 +31,14 @@ RSpec.describe Question, type: :model do
       question.save!
     end
   end
+
+  it 'should return new question from the last day' do
+    question = create(:question, created_at: DateTime.now - 2.days)
+    questions = create_list(:question, 2)
+
+    expect(Question.new_question_from_the_last_day).to include questions.first
+    expect(Question.new_question_from_the_last_day).to include questions.second
+    expect(Question.new_question_from_the_last_day).to_not include question
+  end
+
 end

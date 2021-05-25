@@ -1,0 +1,7 @@
+Hello!
+New questions from the last day!
+
+<% @questions.each do |question| %>
+  <%= question.title %>
+  <%= url_for(question) %>
+<% end %>
