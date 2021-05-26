@@ -17,6 +17,8 @@ class Answer < ApplicationRecord
 
   scope :best, -> { joins(:question).where('questions.best_answer_id = answers.id') }
 
+  after_create :new_answer_notify
+
   validates :body, presence: true
 
   def best_answer
@@ -24,5 +26,11 @@ class Answer < ApplicationRecord
       question.update!(best_answer: self)
       question.reward&.update!(recipient: user)
     end
+  end
+
+  private
+
+  def new_answer_notify
+    NewAnswerNotificationJob.perform_later(question: self.question)
   end
 end

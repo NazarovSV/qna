@@ -32,6 +32,7 @@ RSpec.describe Question, type: :model do
     end
   end
 
+
   it 'should return new question from the last day' do
     question = create(:question, created_at: DateTime.now - 2.days)
     questions = create_list(:question, 2)
