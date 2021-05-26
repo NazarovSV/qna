@@ -21,6 +21,15 @@ RSpec.describe Answer, type: :model do
     expect(question.answers.without_best).to include answers.last
   end
 
+  describe 'new answer notification' do
+    let(:answer) { build(:answer) }
+
+    it 'calls NewAnswerNotificationJob' do
+      expect(NewAnswerNotificationJob).to receive(:perform_later).with(answer.question)
+      answer.save!
+    end
+  end
+
   it 'have many attached files' do
     expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
