@@ -17,6 +17,9 @@ div class="question" data-question-id="#{question.id}"
         = link_to @question.reward.name, url_for(@question.reward.image), target: '_blank'
   .question_rating
     = render 'shared/rating', resource: @question
+  - if user_signed_in?
+    .subscription
+      = render 'subscriptions/link', resource: @question
   div class="question-comments-#{question.id}"
     p= "Comments:"
     = render @question.comments

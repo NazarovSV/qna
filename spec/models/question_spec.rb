@@ -5,6 +5,8 @@ require 'rails_helper'
 RSpec.describe Question, type: :model do
   it { is_expected.to have_many(:answers).dependent(:destroy) }
   it { is_expected.to have_many(:links).dependent(:destroy) }
+  it { is_expected.to have_many(:subscriptions).dependent(:destroy) }
+  it { is_expected.to have_many(:subscribers).through(:subscriptions).source(:user) }
   it { is_expected.to have_one(:reward).dependent(:destroy) }
 
   it { is_expected.to belong_to(:user) }
@@ -30,6 +32,16 @@ RSpec.describe Question, type: :model do
       expect(ReputationJob).to receive(:perform_later).with(question)
       question.save!
     end
+  end
+
+  describe 'subscribe' do
+    let(:question) { build(:question) }
+
+    it 'create new subscription' do
+      expect(Subscription).to receive(:create!).with(user: question.user, question: question)
+      question.save!
+    end
+
   end
 
 
