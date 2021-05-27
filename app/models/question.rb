@@ -6,7 +6,8 @@ class Question < ApplicationRecord
 
   has_many :answers, dependent: :destroy
   has_many :links, dependent: :destroy, as: :linkable
-
+  has_many :subscriptions, dependent: :destroy
+  has_many :subscribers, through: :subscriptions, source: :user
   has_one :reward, dependent: :destroy
   accepts_nested_attributes_for :reward, reject_if: :all_blank, allow_destroy: true
 
@@ -18,7 +19,7 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
-  after_create :calculate_reputation
+  after_create :calculate_reputation, :subscribe
 
   scope :new_question_from_the_last_day, lambda { where('created_at >= ?', 1.days.before) }
 
@@ -26,5 +27,9 @@ class Question < ApplicationRecord
 
   def calculate_reputation
     ReputationJob.perform_later(self)
+  end
+
+  def subscribe
+    Subscription.create!(user: user, question: self)
   end
 end

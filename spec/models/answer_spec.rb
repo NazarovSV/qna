@@ -22,10 +22,11 @@ RSpec.describe Answer, type: :model do
   end
 
   describe 'new answer notification' do
-    let(:answer) { build(:answer) }
+    let!(:question) { create(:question) }
+    let(:answer) { build(:answer, question: question) }
 
     it 'calls NewAnswerNotificationJob' do
-      expect(NewAnswerNotificationJob).to receive(:perform_later).with(answer.question)
+      expect(NewAnswerNotificationJob).to receive(:perform_later).with(question: question)
       answer.save!
     end
   end

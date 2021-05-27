@@ -38,5 +38,6 @@ class Ability
       @user.author?(files.record)
     end
     can [:me, :other], User
+    can :subscribe, Question
   end
 end

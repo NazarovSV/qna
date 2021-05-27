@@ -9,6 +9,7 @@ RSpec.describe User, type: :model do
   it { is_expected.to have_many(:answers).dependent(:destroy) }
   it { is_expected.to have_many(:questions).dependent(:destroy) }
   it { is_expected.to have_many(:authorizations).dependent(:destroy) }
+  it { is_expected.to have_many(:subscriptions).dependent(:destroy) }
 
   describe "checking the question's author" do
     let(:question) { create(:question) }

@@ -48,6 +48,8 @@ RSpec.describe Ability do
       it { should be_able_to :dislike, create(:question, user: other)}
 
       it { should be_able_to :comment, create(:question, user: user) }
+
+      it { should be_able_to :subscribe, Question}
     end
 
 
