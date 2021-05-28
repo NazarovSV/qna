@@ -39,5 +39,6 @@ class Ability
     end
     can [:me, :other], User
     can :subscribe, Question
+    can :unsubscribe, Subscription, user_id: @user.id
   end
 end
