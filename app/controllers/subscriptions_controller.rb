@@ -6,7 +6,7 @@ class SubscriptionsController < ApplicationController
 
     authorize! :subscribe, @question
 
-    Subscription.create!(user_id: current_user.id, question_id: @question.id)
+    Subscription.create!(user: current_user, question: @question)
 
     respond_to :js
   end
@@ -14,7 +14,7 @@ class SubscriptionsController < ApplicationController
   def destroy
     @subscription = Subscription.find(params[:id])
 
-    authorize! :subscribe, @subscription.question
+    authorize! :unsubscribe, @subscription
 
     @question = @subscription.question
     @subscription.destroy!
