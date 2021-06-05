@@ -3,5 +3,6 @@ FactoryBot.define do
     sequence :body do |n|
       "Comment ##{n}"
     end
+    user
   end
 end

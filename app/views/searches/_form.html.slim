@@ -1,0 +1,9 @@
+= form_with url: searches_path, method: :get, class: "form-inline my-2 my-lg-0", local: true do |f|
+  = f.text_field :request, placeholder: "Search"
+  br
+  = f.select :type, options_for_select(Search::TYPES), class: 'form-control'
+  br
+  = f.submit 'Search', class: "btn btn-outline-success my-2 my-sm-0"
+hr
+br
+
