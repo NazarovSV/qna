@@ -2,6 +2,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  get 'searches/index'
   authenticate :user, lambda { |u| u.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
@@ -22,6 +23,8 @@ Rails.application.routes.draw do
   concern :commentable do
    post :comment, on: :member
   end
+
+  resources :searches, only: :index
 
   resources :questions, concerns: %i[votable commentable], shallow: true do
     resources :answers, concerns: %i[votable commentable], shallow: true, only: %i[create destroy update] do
