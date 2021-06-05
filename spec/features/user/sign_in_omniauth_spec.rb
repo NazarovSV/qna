@@ -35,11 +35,11 @@ feature 'User can authorization from providers', '
           mock_auth_hash(provider: 'vkontakte')
 
           click_on 'Sign in with Vkontakte'
-          fill_in 'Email', with: 'user@example.com'
+          fill_in 'Email', with: 'user1@example.com'
 
           click_on 'Send'
 
-          open_email('user@example.com')
+          open_email('user1@example.com')
 
           current_email.click_link('Confirm my account')
 
@@ -53,13 +53,13 @@ feature 'User can authorization from providers', '
           mock_auth_hash(provider: 'vkontakte')
 
           click_on 'Sign in with Vkontakte'
-          fill_in 'Email', with: 'user@example.com'
+          fill_in 'Email', with: 'user1@example.com'
 
           click_on 'Send'
           click_on 'Login'
           click_on 'Sign in with Vkontakte'
 
-          expect(page).to have_content "Confirm your email user@example.com!"
+          expect(page).to have_content "Confirm your email user1@example.com!"
         end
 
         scenario 'can handle authentication error' do
@@ -87,7 +87,7 @@ feature 'User can authorization from providers', '
   end
 
   describe 'user exists', js: true do
-    given!(:user) { create(:user, email: 'user@example.com') }
+    given!(:user) { create(:user) }
 
     before do
       visit new_user_session_path
