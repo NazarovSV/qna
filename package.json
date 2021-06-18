@@ -2,7 +2,6 @@
   "name": "qna",
   "private": true,
   "dependencies": {
-    "@babel/plugin-proposal-private-methods": "^7.13.0",
     "@nathanvda/cocoon": "^1.2.14",
     "@popperjs/core": "^2.9.1",
     "@rails/actioncable": "^6.0.0",
