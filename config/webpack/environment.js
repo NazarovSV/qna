@@ -10,7 +10,6 @@ environment.plugins.append('Provide',
 
 const handlebars = require('./loaders/handlebars')
 
-environment.loaders.delete('nodeModules')
 environment.loaders.prepend('handlebars', handlebars)
 
 
