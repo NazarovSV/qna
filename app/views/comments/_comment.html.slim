@@ -1,7 +1,8 @@
-.card 
-  div class = "comment_#{comment.id} card-body bg-light"
-    p class="card-text"
-      = comment.body
-    p class="card-text"
-      = comment.user&.email
+- cache comment.id
+  .card
+    div class = "comment_#{comment.id} card-body bg-light"
+      p class="card-text"
+        = comment.body
+      p class="card-text"
+        = comment.user&.email
 br

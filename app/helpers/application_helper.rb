@@ -43,6 +43,13 @@ module ApplicationHelper
     "#{resource.class.name.downcase}_rating_#{action_name}_#{resource.id}"
   end
 
+  def collection_cache_key_for(model)
+    klass = model.to_s.capitalize.constantize
+    count = klass.count
+    max_update_at = klass.maximum(:updated_at).try(:utc).try(:to_s)
+    "#{model.to_s.pluralize}/collection-#{count}-#{max_update_at}"
+  end
+
   private
 
   def gist?(url)

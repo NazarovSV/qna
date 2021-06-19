@@ -1,31 +1,32 @@
-.text-center
-  h3= question.title
-br
-div class="question" data-question-id="#{question.id}"
-  p= question.body
-  .attached_files
-    = render 'shared/attached_files', resource: question.files
-  .links
-    - if @question.links.present?
-      p Links:
-      ul
-        - @question.links.each do |link|
-          = render 'shared/link', resource: link
-  .reward
-    - if @question.reward.present?
-      p
-        = link_to @question.reward.name, url_for(@question.reward.image), target: '_blank'
-  .question_rating
-    = render 'shared/rating', resource: @question
-  - if user_signed_in?
-    .subscription
-      = render 'subscriptions/link', resource: @question
-  div class="question-comments-#{question.id}"
-    p= "Comments:"
-    = render @question.comments
-  - if user_signed_in?
-    = render 'comments/form', resource: question, comment: @comment
-    
+- cache question do
+  .text-center
+    h3= question.title
+  br
+  div class="question" data-question-id="#{question.id}"
+    p= question.body
+    .attached_files
+      = render 'shared/attached_files', resource: question.files
+    .links
+      - if @question.links.present?
+        p Links:
+        ul
+          - @question.links.each do |link|
+            = render 'shared/link', resource: link
+    .reward
+      - if @question.reward.present?
+        p
+          = link_to @question.reward.name, url_for(@question.reward.image), target: '_blank'
+    .question_rating
+      = render 'shared/rating', resource: @question
+    - if user_signed_in?
+      .subscription
+        = render 'subscriptions/link', resource: @question
+    div class="question-comments-#{question.id}"
+      p= "Comments:"
+      = render @question.comments
+    - if user_signed_in?
+      = render 'comments/form', resource: question, comment: @comment
+
 
 br
 br
