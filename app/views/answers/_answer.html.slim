@@ -1,51 +1,52 @@
 - unless answer.new_record?
-  div id="answer_id_#{answer.id}"
-    = answer.body
-    div class="answer_rating_#{answer.id}"
-      = render 'shared/rating', resource: answer
-    = render 'shared/attached_files', resource: answer.files
-    .links
-      p Links:
-      ul
-        - answer.links.each do |link|
-          = render 'shared/link', resource: link
+  - cache answer do
+    div id="answer_id_#{answer.id}"
+      = answer.body
+      div class="answer_rating_#{answer.id}"
+        = render 'shared/rating', resource: answer
+      = render 'shared/attached_files', resource: answer.files
+      .links
+        p Links:
+        ul
+          - answer.links.each do |link|
+            = render 'shared/link', resource: link
 
-    br
-    div class="answer_edit_#{answer.id}"
-      /- if current_user&.author?(answer)
-      small
-        - if can?(:update, answer)
-          = link_to 'Delete', answer_path(answer), method: :delete, remote: true
-        - if can?(:destroy, answer)
-          '  |
-          = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
-        div class="answer-#{answer.id}-errors"
-
-        = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-          p
-            small
-              = f.label :body, 'Your answer:', class: 'form-label'
-            p
-              = f.text_area :body, class: 'form-control'
-          p
-            small
-              = f.label :files, class: 'form-label'
-            p
-              = f.file_field :files, class: 'form-label', multiple: true, direct_upload: true
-          p Links:
-          #links
-            .links
-              = link_to_add_association 'add link', f, :links
-            br
-          = f.submit 'Save', class: "btn btn-primary mt-3"
-    div class="answer-comments-#{answer.id}"
-      p= "Comments:"
-      = render answer.comments
-    - if user_signed_in?
-      = render 'comments/form', resource: answer, comment: @comment
-
-    - if can?(:best_answer, answer)
       br
-      = link_to 'Best Answer!', best_answer_answer_path(answer), class: 'link-success', data: { answer_id: answer.id }, remote: true, method: :patch
-  hr
+      div class="answer_edit_#{answer.id}"
+        /- if current_user&.author?(answer)
+        small
+          - if can?(:update, answer)
+            = link_to 'Delete', answer_path(answer), method: :delete, remote: true
+          - if can?(:destroy, answer)
+            '  |
+            = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+          div class="answer-#{answer.id}-errors"
+
+          = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+            p
+              small
+                = f.label :body, 'Your answer:', class: 'form-label'
+              p
+                = f.text_area :body, class: 'form-control'
+            p
+              small
+                = f.label :files, class: 'form-label'
+              p
+                = f.file_field :files, class: 'form-label', multiple: true, direct_upload: true
+            p Links:
+            #links
+              .links
+                = link_to_add_association 'add link', f, :links
+              br
+            = f.submit 'Save', class: "btn btn-primary mt-3"
+      div class="answer-comments-#{answer.id}"
+        p= "Comments:"
+        = render answer.comments
+      - if user_signed_in?
+        = render 'comments/form', resource: answer, comment: @comment
+
+      - if can?(:best_answer, answer)
+        br
+        = link_to 'Best Answer!', best_answer_answer_path(answer), class: 'link-success', data: { answer_id: answer.id }, remote: true, method: :patch
+    hr
 br

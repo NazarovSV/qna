@@ -2,15 +2,16 @@
   b= 'Best Answer'
   br
   br
-  = @question.best_answer.body
-  - if @question.best_answer.files.attached?
-    - @question.best_answer.files.each do |file|
-      p= link_to file.filename.to_s, url_for(file)
-  .links
-    p Links:
-    ul
-      - @question.best_answer.links.each do |link|
-        = render 'shared/link', resource: link
+  - cache @question.best_answer
+    = @question.best_answer.body
+    - if @question.best_answer.files.attached?
+      - @question.best_answer.files.each do |file|
+        p= link_to file.filename.to_s, url_for(file)
+    .links
+      p Links:
+      ul
+        - @question.best_answer.links.each do |link|
+          = render 'shared/link', resource: link
   br
   br
   - if can?(:destroy, @question.best_answer)
