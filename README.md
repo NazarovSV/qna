@@ -1,24 +1,49 @@
-# README
+# QnA
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Проект QnA представляет собой учебный проект, который реализует основные функции популярного ресурса stackoverflow. Этот проект позволяет пользователям задавать вопросы, отвечать на них и оценивать ответы других пользователей.
+Технологии
 
-Things you may want to cover:
 
-* Ruby version
+## Используемые технологии:
 
-* System dependencies
+    Ruby on Rails 6
+    PostgreSQL
+    Slim
+    Bootstrap 5
+    TDD/BDD (RSpec, Capybara)
+    Devise
+    CanCanCan
+    ActionCable
+    ActiveJob, Sidekiq
+    OAuth
+    SphinxSearch
+    
+  
+## Как запустить проект
 
-* Configuration
+Склонировать репозиторий:
 
-* Database creation
+      git clone https://github.com/NazarovSV/qna.git
 
-* Database initialization
+Установить все зависимости с помощью команды:
 
-* How to run the test suite
+      bundle install
 
-* Services (job queues, cache servers, search engines, etc.)
+Создать базу данных и выполнить миграции:
 
-* Deployment instructions
+      bundle exec rails db:create
+      bundle exec rails db:migrate
 
-* ...
+Запустить локальный сервер:
+
+      bundle exec rails s
+
+Открыть приложение в браузере по адресу http://localhost:3000.
+
+
+## Как запустить тесты
+
+Чтобы запустить тесты, необходимо выполнить команду:
+
+      bundle exec rspec
+    
