@@ -6,17 +6,17 @@
 
 ## Используемые технологии:
 
-    Ruby on Rails 6
-    PostgreSQL
-    Slim
-    Bootstrap 5
-    TDD/BDD (RSpec, Capybara)
-    Devise
-    CanCanCan
-    ActionCable
-    ActiveJob, Sidekiq
-    OAuth
-    SphinxSearch
+- Ruby on Rails 6
+- PostgreSQL
+- Slim
+- Bootstrap 5
+- TDD/BDD (RSpec, Capybara)
+- Devise
+- CanCanCan
+- ActionCable
+- ActiveJob, Sidekiq
+- OAuth
+- SphinxSearch
     
   
 ## Как запустить проект
